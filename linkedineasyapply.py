@@ -244,124 +244,133 @@ class LinkedinEasyApply:
                     # Skip this job and continue with the next one
                     job_index += 1
                     continue
-            try:
-                # company = job_tile.find_element(By.CLASS_NAME, 'job-card-container__primary-description').text # original code
-                company = job_tile.find_element(By.CLASS_NAME, 'artdeco-entity-lockup__subtitle').text
-            except:
-                pass
-            try:
-                # get the name of the person who posted for the position, if any is listed
-                hiring_line = job_tile.find_element(By.XPATH, '//span[contains(.,\' is hiring for this\')]')
-                hiring_line_text = hiring_line.text
-                name_terminating_index = hiring_line_text.find(' is hiring for this')
-                if name_terminating_index != -1:
-                    poster = hiring_line_text[:name_terminating_index]
-            except:
-                pass
-            try:
-                job_location = job_tile.find_element(By.CLASS_NAME, 'job-card-container__metadata-item').text
-            except:
-                pass
-            try:
-                apply_method = job_tile.find_element(By.CLASS_NAME, 'job-card-container__apply-method').text
-            except:
-                pass
-
-            contains_blacklisted_keywords = False
-            job_title_parsed = job_title.lower().split(' ')
-
-            for word in self.title_blacklist:
-                if word.lower() in job_title_parsed:
-                    contains_blacklisted_keywords = True
-                    break
-
-            if company.lower() not in [word.lower() for word in self.company_blacklist] and \
-                    poster.lower() not in [word.lower() for word in self.poster_blacklist] and \
-                    contains_blacklisted_keywords is False and link not in self.seen_jobs:
+                
                 try:
-                    max_retries = 3
-                    retries = 0
-                    while retries < max_retries:
-                        try:
-                            job_el = job_tile.find_element(By.CLASS_NAME, 'job-card-list__title--link')
-                            
-                            # Scroll the element into view first
-                            self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", job_el)
-                            time.sleep(1)
-                            
-                            # Try to click with JavaScript if regular click fails
-                            try:
-                                job_el.click()
-                            except Exception as click_error:
-                                if "element click intercepted" in str(click_error).lower():
-                                    # Use JavaScript click as fallback
-                                    self.browser.execute_script("arguments[0].click();", job_el)
-                                else:
-                                    raise click_error
-                            
-                            break
-
-                        except StaleElementReferenceException:
-                            retries += 1
-                            time.sleep(1)
-                            continue
-                        except Exception as e:
-                            if "element click intercepted" in str(e).lower():
-                                retries += 1
-                                time.sleep(2)
-                                continue
-                            else:
-                                raise e
-
-                    time.sleep(random.uniform(3, 5))
-
-                    try:
-                        done_applying = self.apply_to_job()
-                        if done_applying:
-                            print(f"Application sent to {company} for the position of {job_title}.")
-                        else:
-                            print(f"An application for a job at {company} has been submitted earlier.")
-                    except Exception as apply_error:
-                        print(f"Error applying to job: {str(apply_error)}")
-                        temp = self.file_name
-                        self.file_name = "failed"
-                        print("Failed to apply to job. Please submit a bug report with this link: " + link)
-                        try:
-                            self.write_to_file(company, job_title, link, job_location, location)
-                        except Exception as write_error:
-                            print(f"Could not write to failed file: {str(write_error)}")
-                        self.file_name = temp
-                        print(f'updated {temp}.')
-
-                    try:
-                        self.write_to_file(company, job_title, link, job_location, location)
-                    except Exception:
-                        print(
-                            f"Unable to save the job information in the file. The job title {job_title} or company {company} cannot contain special characters,")
-                        traceback.print_exc()
-                        except Exception as job_error:
-            print(f"Error processing job at {company}: {str(job_error)}")
-            traceback.print_exc()
-            print(f"Could not apply to the job in {company}")
-            
-            # If we get too many stale element errors, refresh the page
-            if "stale element" in str(job_error).lower():
-                print("Detected stale elements, refreshing page...")
-                try:
-                    self.browser.refresh()
-                    time.sleep(5)
-                    # Re-fetch the job list
-                    return self.apply_jobs(location)
+                    # company = job_tile.find_element(By.CLASS_NAME, 'job-card-container__primary-description').text # original code
+                    company = job_tile.find_element(By.CLASS_NAME, 'artdeco-entity-lockup__subtitle').text
                 except:
                     pass
-            
-            job_index += 1
-            continue
-            else:
-                print(f"Job for {company} by {poster} contains a blacklisted word {word}.")
+                try:
+                    # get the name of the person who posted for the position, if any is listed
+                    hiring_line = job_tile.find_element(By.XPATH, '//span[contains(.,\' is hiring for this\')]')
+                    hiring_line_text = hiring_line.text
+                    name_terminating_index = hiring_line_text.find(' is hiring for this')
+                    if name_terminating_index != -1:
+                        poster = hiring_line_text[:name_terminating_index]
+                except:
+                    pass
+                try:
+                    job_location = job_tile.find_element(By.CLASS_NAME, 'job-card-container__metadata-item').text
+                except:
+                    pass
+                try:
+                    apply_method = job_tile.find_element(By.CLASS_NAME, 'job-card-container__apply-method').text
+                except:
+                    pass
 
-            self.seen_jobs += link
-            job_index += 1
+                contains_blacklisted_keywords = False
+                job_title_parsed = job_title.lower().split(' ')
+
+                for word in self.title_blacklist:
+                    if word.lower() in job_title_parsed:
+                        contains_blacklisted_keywords = True
+                        break
+
+                if company.lower() not in [word.lower() for word in self.company_blacklist] and \
+                        poster.lower() not in [word.lower() for word in self.poster_blacklist] and \
+                        contains_blacklisted_keywords is False and link not in self.seen_jobs:
+                    try:
+                        max_retries = 3
+                        retries = 0
+                        while retries < max_retries:
+                            try:
+                                job_el = job_tile.find_element(By.CLASS_NAME, 'job-card-list__title--link')
+                                
+                                # Scroll the element into view first
+                                self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", job_el)
+                                time.sleep(1)
+                                
+                                # Try to click with JavaScript if regular click fails
+                                try:
+                                    job_el.click()
+                                except Exception as click_error:
+                                    if "element click intercepted" in str(click_error).lower():
+                                        # Use JavaScript click as fallback
+                                        self.browser.execute_script("arguments[0].click();", job_el)
+                                    else:
+                                        raise click_error
+                                
+                                break
+
+                            except StaleElementReferenceException:
+                                retries += 1
+                                time.sleep(1)
+                                continue
+                            except Exception as e:
+                                if "element click intercepted" in str(e).lower():
+                                    retries += 1
+                                    time.sleep(2)
+                                    continue
+                                else:
+                                    raise e
+
+                        time.sleep(random.uniform(3, 5))
+
+                        try:
+                            done_applying = self.apply_to_job()
+                            if done_applying:
+                                print(f"Application sent to {company} for the position of {job_title}.")
+                            else:
+                                print(f"An application for a job at {company} has been submitted earlier.")
+                        except Exception as apply_error:
+                            print(f"Error applying to job: {str(apply_error)}")
+                            temp = self.file_name
+                            self.file_name = "failed"
+                            print("Failed to apply to job. Please submit a bug report with this link: " + link)
+                            try:
+                                self.write_to_file(company, job_title, link, job_location, location)
+                            except Exception as write_error:
+                                print(f"Could not write to failed file: {str(write_error)}")
+                            self.file_name = temp
+                            print(f'updated {temp}.')
+
+                        try:
+                            self.write_to_file(company, job_title, link, job_location, location)
+                        except Exception:
+                            print(
+                                f"Unable to save the job information in the file. The job title {job_title} or company {company} cannot contain special characters,")
+                            traceback.print_exc()
+                            
+                    except Exception as job_error:
+                        print(f"Error processing job at {company}: {str(job_error)}")
+                        traceback.print_exc()
+                        print(f"Could not apply to the job in {company}")
+                        
+                        # If we get too many stale element errors, refresh the page
+                        if "stale element" in str(job_error).lower():
+                            print("Detected stale elements, refreshing page...")
+                            try:
+                                self.browser.refresh()
+                                time.sleep(5)
+                                # Re-fetch the job list
+                                return self.apply_jobs(location)
+                            except:
+                                pass
+                        
+                        job_index += 1
+                        continue
+                        
+                else:
+                    print(f"Job for {company} by {poster} contains a blacklisted word {word}.")
+
+                self.seen_jobs += link
+                job_index += 1
+                
+            except Exception as loop_error:
+                print(f"Error in job processing loop: {str(loop_error)}")
+                traceback.print_exc()
+                job_index += 1
+                continue
 
     def apply_to_job(self):
         easy_apply_button = None
