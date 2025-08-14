@@ -1,4 +1,8 @@
 import time, random, csv, pyautogui, pdb, traceback, sys, os
+import cv2
+import numpy as np
+import pytesseract
+from PIL import Image
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
@@ -41,6 +45,278 @@ class LinkedinEasyApply:
         self.personal_info = parameters.get('personalInfo', [])
         self.eeo = parameters.get('eeo', [])
         self.experience_default = int(self.experience['default'])
+        
+        # User skills and preferences for job matching
+        self.user_skills = parameters.get('userSkills', [
+            'python', 'javascript', 'java', 'react', 'node.js', 'aws', 'sql',
+            'machine learning', 'data analysis', 'web development'
+        ])
+        self.user_tech_stack = parameters.get('userTechStack', [
+            'python', 'javascript', 'react', 'node.js', 'aws', 'sql', 'mongodb',
+            'docker', 'git', 'agile', 'scrum'
+        ])
+        self.experience_level = parameters.get('userExperienceLevel', 'mid')  # junior, mid, senior
+        self.prefer_remote = parameters.get('preferRemote', True)
+        self.min_salary = parameters.get('minSalary', 50000)
+        self.max_salary = parameters.get('maxSalary', 150000)
+
+    def read_job_description_ocr(self, job_element=None):
+        """
+        Read job description using computer vision and OCR
+        Returns the extracted text from the job description area
+        """
+        try:
+            print("Reading job description using OCR...")
+            
+            # If no specific element provided, try to find the job description container
+            if job_element is None:
+                try:
+                    # Try multiple selectors for job description
+                    description_selectors = [
+                        "jobs-search__job-details--container",
+                        "jobs-description",
+                        "job-description",
+                        "description__text",
+                        "jobs-box__html-content"
+                    ]
+                    
+                    for selector in description_selectors:
+                        try:
+                            job_element = self.browser.find_element(By.CLASS_NAME, selector)
+                            if job_element:
+                                break
+                        except:
+                            continue
+                    
+                    if not job_element:
+                        print("Could not find job description container")
+                        return ""
+                        
+                except Exception as e:
+                    print(f"Error finding job description container: {str(e)}")
+                    return ""
+            
+            # Take a screenshot of the job description area
+            try:
+                # Scroll the element into view
+                self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", job_element)
+                time.sleep(1)
+                
+                # Get element location and size
+                location = job_element.location
+                size = job_element.size
+                
+                # Take full page screenshot
+                screenshot_path = "temp_job_screenshot.png"
+                self.browser.save_screenshot(screenshot_path)
+                
+                # Load the screenshot
+                full_screenshot = cv2.imread(screenshot_path)
+                
+                # Calculate coordinates for cropping (accounting for browser UI elements)
+                x = int(location['x'])
+                y = int(location['y'])
+                w = int(size['width'])
+                h = int(size['height'])
+                
+                # Crop the job description area
+                job_description_img = full_screenshot[y:y+h, x:x+w]
+                
+                # Clean up temporary file
+                if os.path.exists(screenshot_path):
+                    os.remove(screenshot_path)
+                
+                if job_description_img.size == 0:
+                    print("Failed to capture job description image")
+                    return ""
+                
+                # Preprocess image for better OCR
+                # Convert to grayscale
+                gray = cv2.cvtColor(job_description_img, cv2.COLOR_BGR2GRAY)
+                
+                # Apply thresholding to get binary image
+                _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+                
+                # Apply morphological operations to clean up the image
+                kernel = np.ones((1, 1), np.uint8)
+                cleaned = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
+                
+                # Use pytesseract to extract text
+                try:
+                    # Try with cleaned image first
+                    text = pytesseract.image_to_string(cleaned, config='--psm 6')
+                    
+                    # If no text found, try with original grayscale image
+                    if not text.strip():
+                        text = pytesseract.image_to_string(gray, config='--psm 6')
+                    
+                    # If still no text, try with different PSM modes
+                    if not text.strip():
+                        text = pytesseract.image_to_string(gray, config='--psm 3')
+                    
+                    # Clean up the extracted text
+                    if text:
+                        # Remove extra whitespace and normalize
+                        text = ' '.join(text.split())
+                        print(f"Successfully extracted {len(text)} characters from job description")
+                        return text
+                    else:
+                        print("No text extracted from job description image")
+                        return ""
+                        
+                except Exception as ocr_error:
+                    print(f"OCR error: {str(ocr_error)}")
+                    return ""
+                    
+            except Exception as screenshot_error:
+                print(f"Screenshot error: {str(screenshot_error)}")
+                return ""
+                
+        except Exception as e:
+            print(f"Error in OCR job description reading: {str(e)}")
+            return ""
+    
+    def analyze_job_description(self, job_text):
+        """
+        Analyze the job description text for key information
+        Returns a dictionary with analysis results
+        """
+        if not job_text:
+            return {}
+        
+        analysis = {
+            'has_required_skills': False,
+            'has_preferred_skills': False,
+            'experience_level': 'unknown',
+            'remote_work': False,
+            'salary_mentioned': False,
+            'tech_stack': [],
+            'red_flags': []
+        }
+        
+        job_text_lower = job_text.lower()
+        
+        # Check for required skills
+        required_keywords = ['required', 'must have', 'essential', 'mandatory', 'prerequisites']
+        if any(keyword in job_text_lower for keyword in required_keywords):
+            analysis['has_required_skills'] = True
+        
+        # Check for preferred skills
+        preferred_keywords = ['preferred', 'nice to have', 'bonus', 'plus', 'advantage']
+        if any(keyword in job_text_lower for keyword in preferred_keywords):
+            analysis['has_preferred_skills'] = True
+        
+        # Check experience level
+        if 'senior' in job_text_lower or 'lead' in job_text_lower or 'principal' in job_text_lower:
+            analysis['experience_level'] = 'senior'
+        elif 'junior' in job_text_lower or 'entry' in job_text_lower or 'graduate' in job_text_lower:
+            analysis['experience_level'] = 'junior'
+        elif 'mid' in job_text_lower or 'intermediate' in job_text_lower:
+            analysis['experience_level'] = 'mid'
+        
+        # Check for remote work
+        remote_keywords = ['remote', 'work from home', 'telecommute', 'distributed']
+        if any(keyword in job_text_lower for keyword in remote_keywords):
+            analysis['remote_work'] = True
+        
+        # Check for salary information
+        salary_keywords = ['salary', 'compensation', 'pay', '$', 'usd', 'annual']
+        if any(keyword in job_text_lower for keyword in salary_keywords):
+            analysis['salary_mentioned'] = True
+        
+        # Extract tech stack
+        tech_keywords = [
+            'python', 'java', 'javascript', 'react', 'angular', 'vue', 'node.js',
+            'aws', 'azure', 'gcp', 'docker', 'kubernetes', 'sql', 'mongodb',
+            'machine learning', 'ai', 'data science', 'devops', 'agile'
+        ]
+        
+        for tech in tech_keywords:
+            if tech in job_text_lower:
+                analysis['tech_stack'].append(tech)
+        
+        # Check for red flags
+        red_flag_keywords = [
+            'unpaid', 'volunteer', 'commission only', 'no benefits',
+            'overtime required', 'weekend work', 'on-call', '24/7'
+        ]
+        
+        for flag in red_flag_keywords:
+            if flag in job_text_lower:
+                analysis['red_flags'].append(flag)
+        
+        return analysis
+
+    def should_apply_to_job(self, analysis, job_text):
+        """
+        Make intelligent decision about whether to apply to a job
+        Returns True if should apply, False if should skip
+        """
+        if not analysis:
+            return True  # If we can't analyze, proceed with caution
+        
+        # Check for major red flags
+        if analysis.get('red_flags'):
+            red_flags = analysis['red_flags']
+            # Skip jobs with certain red flags
+            critical_red_flags = ['unpaid', 'volunteer', 'commission only', 'no benefits']
+            if any(flag in red_flags for flag in critical_red_flags):
+                print(f"❌ Critical red flag detected: {[f for f in red_flags if f in critical_red_flags]}")
+                return False
+        
+        # Check experience level compatibility
+        user_experience = getattr(self, 'experience_level', 'mid')  # Default to mid-level
+        job_experience = analysis.get('experience_level', 'unknown')
+        
+        if job_experience != 'unknown':
+            if user_experience == 'junior' and job_experience == 'senior':
+                print("❌ Job requires senior level, but user is junior")
+                return False
+            elif user_experience == 'senior' and job_experience == 'junior':
+                print("⚠️  Job is junior level, but user is senior - might be overqualified")
+                # Don't skip, but note it
+        
+        # Check for required skills match
+        if analysis.get('has_required_skills'):
+            # If job has required skills section, check if user has any of the common ones
+            user_skills = getattr(self, 'user_skills', [])
+            if user_skills:
+                job_text_lower = job_text.lower()
+                skill_match = any(skill.lower() in job_text_lower for skill in user_skills)
+                if not skill_match:
+                    print("❌ No skill match found in required skills")
+                    return False
+        
+        # Check for remote work preference
+        user_prefers_remote = getattr(self, 'prefer_remote', False)
+        if user_prefers_remote and not analysis.get('remote_work'):
+            print("⚠️  User prefers remote work, but job is not remote")
+            # Don't skip, but note it
+        
+        # Check tech stack compatibility
+        user_tech_stack = getattr(self, 'user_tech_stack', [])
+        job_tech_stack = analysis.get('tech_stack', [])
+        
+        if user_tech_stack and job_tech_stack:
+            tech_overlap = set(user_tech_stack) & set(job_tech_stack)
+            if tech_overlap:
+                print(f"✅ Tech stack overlap: {', '.join(tech_overlap)}")
+            else:
+                print("⚠️  No tech stack overlap found")
+                # Don't skip, but note it
+        
+        # Overall decision
+        # If we have red flags, skip
+        if analysis.get('red_flags'):
+            return False
+        
+        # If we have good skill matches, apply
+        if analysis.get('has_required_skills') and user_skills:
+            return True
+        
+        # If no major issues, proceed
+        print("✅ Job analysis passed. Proceeding with application.")
+        return True
 
     def login(self):
         try:
@@ -383,10 +659,41 @@ class LinkedinEasyApply:
 
         try:
             job_description_area = self.browser.find_element(By.CLASS_NAME, "jobs-search__job-details--container")
-            print (f"{job_description_area}")
+            print(f"{job_description_area}")
+            
+            # Read and analyze job description using OCR
+            print("Reading job description with OCR...")
+            job_description_text = self.read_job_description_ocr(job_description_area)
+            
+            if job_description_text:
+                # Analyze the job description
+                analysis = self.analyze_job_description(job_description_text)
+                
+                print("Job Description Analysis:")
+                print(f"  Experience Level: {analysis.get('experience_level', 'unknown')}")
+                print(f"  Remote Work: {analysis.get('remote_work', False)}")
+                print(f"  Salary Mentioned: {analysis.get('salary_mentioned', False)}")
+                print(f"  Tech Stack: {', '.join(analysis.get('tech_stack', []))}")
+                
+                if analysis.get('red_flags'):
+                    print(f"  ⚠️  Red Flags: {', '.join(analysis.get('red_flags', []))}")
+                
+                # Make decision based on analysis
+                should_apply = self.should_apply_to_job(analysis, job_description_text)
+                
+                if not should_apply:
+                    print("❌ Job analysis suggests not to apply. Skipping this job.")
+                    return False
+                else:
+                    print("✅ Job analysis suggests this is a good fit. Proceeding with application.")
+            else:
+                print("⚠️  Could not read job description with OCR. Proceeding with caution.")
+            
             self.scroll_slow(job_description_area, end=1600)
             self.scroll_slow(job_description_area, end=1600, step=400, reverse=True)
-        except:
+        except Exception as e:
+            print(f"Error reading job description: {str(e)}")
+            # Continue with application even if OCR fails
             pass
 
         print("Starting the job application...")

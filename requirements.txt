@@ -3,3 +3,7 @@ pyautogui
 webdriver_manager
 PyYAML
 validate_email
+opencv-python
+pytesseract
+Pillow
+numpy

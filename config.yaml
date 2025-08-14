@@ -244,3 +244,36 @@ eeo:
  disability: None
  citizenship: yes
  clearance: no
+
+# User Skills and Preferences for Job Matching
+userSkills:
+  - Python
+  - JavaScript
+  - Java
+  - React
+  - Node.js
+  - AWS
+  - SQL
+  - Machine Learning
+  - Data Analysis
+  - Web Development
+
+userTechStack:
+  - Python
+  - JavaScript
+  - React
+  - Node.js
+  - AWS
+  - SQL
+  - MongoDB
+  - Docker
+  - Git
+  - Agile
+  - Scrum
+
+userExperienceLevel: mid  # Options: junior, mid, senior
+preferRemote: true
+minSalary: 50000
+maxSalary: 150000
+
+# Job Application Settings
