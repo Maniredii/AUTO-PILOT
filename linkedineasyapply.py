@@ -96,8 +96,9 @@ class LinkedinEasyApply:
                     print(f"Error finding job description container: {str(e)}")
                     return ""
             
-            # Take a screenshot of the job description area
+            # Try OCR first, fall back to text if it fails
             try:
+                # Take a screenshot of the job description area
                 # Scroll the element into view
                 self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", job_element)
                 time.sleep(1)
@@ -158,7 +159,7 @@ class LinkedinEasyApply:
                     if text:
                         # Remove extra whitespace and normalize
                         text = ' '.join(text.split())
-                        print(f"Successfully extracted {len(text)} characters from job description")
+                        print(f"Successfully extracted {len(text)} characters from job description using OCR")
                         return text
                     else:
                         print("No text extracted from job description image")
@@ -166,16 +167,65 @@ class LinkedinEasyApply:
                         
                 except Exception as ocr_error:
                     print(f"OCR error: {str(ocr_error)}")
-                    return ""
+                    # Fall back to text-based reading
+                    return self.read_job_description_text_only(job_element)
                     
             except Exception as screenshot_error:
                 print(f"Screenshot error: {str(screenshot_error)}")
-                return ""
+                # Fall back to text-based reading
+                return self.read_job_description_text_only(job_element)
                 
         except Exception as e:
             print(f"Error in OCR job description reading: {str(e)}")
-            return ""
+            # Fall back to text-based reading
+            return self.read_job_description_text_only(job_element)
     
+    def read_job_description_text_only(self, job_element=None):
+        """
+        Read job description using HTML text instead of OCR
+        This is a fallback method when OCR is not available
+        """
+        try:
+            print("Reading job description using HTML text...")
+            
+            if job_element is None:
+                # Try to find the job description container
+                description_selectors = [
+                    "jobs-search__job-details--container",
+                    "jobs-description",
+                    "job-description",
+                    "description__text",
+                    "jobs-box__html-content"
+                ]
+                
+                for selector in description_selectors:
+                    try:
+                        job_element = self.browser.find_element(By.CLASS_NAME, selector)
+                        if job_element:
+                            break
+                    except:
+                        continue
+                
+                if not job_element:
+                    print("Could not find job description container")
+                    return ""
+            
+            # Get text directly from HTML
+            job_text = job_element.text
+            
+            if job_text:
+                # Clean up the text
+                job_text = ' '.join(job_text.split())
+                print(f"Successfully extracted {len(job_text)} characters from job description using HTML text")
+                return job_text
+            else:
+                print("No text found in job description HTML")
+                return ""
+                
+        except Exception as e:
+            print(f"Error reading job description HTML: {str(e)}")
+            return ""
+
     def analyze_job_description(self, job_text):
         """
         Analyze the job description text for key information
@@ -687,7 +737,10 @@ class LinkedinEasyApply:
                 else:
                     print("✅ Job analysis suggests this is a good fit. Proceeding with application.")
             else:
-                print("⚠️  Could not read job description with OCR. Proceeding with caution.")
+                print("⚠️  Could not read job description. Proceeding with caution.")
+                print("💡 To enable full job analysis, install Tesseract OCR:")
+                print("   Download from: https://github.com/UB-Mannheim/tesseract/wiki")
+                print("   Check 'Add to PATH' during installation and restart your IDE")
             
             self.scroll_slow(job_description_area, end=1600)
             self.scroll_slow(job_description_area, end=1600, step=400, reverse=True)
