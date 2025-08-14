@@ -1,7 +1,7 @@
 # Add your LinkedIn email ID and password.
 # *** WARNING: KEEP THIS CONFIG OFFLINE ON YOUR PC AND DO NOT COMMIT/UPLOAD ***
-email: email@domain.com
-password: yourpassword
+email: wowotib464@cronack.com
+password: Mani!8897
 
 # Anti-lock default is False to prevent your PC from sleeping to
 # allow bot to run uninterrupted. Set it to True if you wish  to
@@ -44,20 +44,16 @@ date:
 # Remove hash sign to add positions. You can add as many as you need,
 # but preserve formatting
 positions:
- #- First position
- #- A second position
- #- A third position
- #- ...
+ - Software Engineer
+ - Python Developer
+ - Data Scientist
 
 # Remove hash sign to add locations. You can add as many as you need
 # including adding 'Remote' as a location but first location must be
 # a valid country.
 locations:
- #- First location
- #- A second location
- #- A third location
- #- ...
- #- Remote
+ - United States
+ - Remote
 
 # Set to True if you are residing in the country of job
 residentStatus: False
@@ -90,7 +86,7 @@ posterBlacklist:
 # reuse manually uploaded CV for automating the task. Note: Prefer
 # a path without spaces, i.e. instead of "Me My" to "MeMy" or "Me_My".
 uploads:
- resume: C:\Users\myDirectory\Resume.pdf
+ resume: "C:\\Users\\Mani_Reddy\\Downloads\\EasyApplyBot\\sample resume.docx"
  # Cover letter is optional
  #coverLetter: C:\Users\myDirectory\CoverLettter.pdf
 

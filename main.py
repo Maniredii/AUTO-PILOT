@@ -1,4 +1,4 @@
-import yaml, os
+import yaml, os, traceback
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -15,7 +15,14 @@ def init_browser():
         '--disable-extensions',
         '--ignore-certificate-errors',
         '--disable-blink-features=AutomationControlled',
-        '--remote-debugging-port=9222'
+        '--remote-debugging-port=9222',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--no-first-run',
+        '--no-default-browser-check',
+        '--disable-background-timer-throttling',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-renderer-backgrounding'
     ]
 
     # Restore session if possible (avoids login everytime)
@@ -138,10 +145,24 @@ def validate_yaml():
     return parameters
 
 if __name__ == '__main__':
-    parameters = validate_yaml()
-    browser = init_browser()
+    try:
+        parameters = validate_yaml()
+        browser = init_browser()
 
-    bot = LinkedinEasyApply(parameters, browser)
-    bot.login()
-    bot.security_check()
-    bot.start_applying()
+        bot = LinkedinEasyApply(parameters, browser)
+        bot.login()
+        bot.security_check()
+        bot.start_applying()
+    except KeyboardInterrupt:
+        print("\nBot stopped by user.")
+        try:
+            browser.quit()
+        except:
+            pass
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        traceback.print_exc()
+        try:
+            browser.quit()
+        except:
+            pass

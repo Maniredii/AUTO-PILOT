@@ -1,0 +1,445 @@
+[20704:13200:0814/153106.349:INFO:components\enterprise\browser\controller\chrome_browser_cloud_management_controller.cc:202] No machine level policy manager exists.
+[11376:11180:0814/153106.844:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[17924:29588:0814/153106.974:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[11940:23168:0814/153107.942:VERBOSE1:components\viz\service\main\viz_main_impl.cc:86] VizNullHypothesis is disabled (not a warning)
+[2364:14156:0814/153108.548:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[22172:25332:0814/153108.693:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[11940:23168:0814/153117.320:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0202800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[20704:13200:0814/153118.627:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0202800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://www.linkedin.com/feed/ (0)
+[2364:33984:0814/153121.168:INFO:third_party\webrtc\api\video_codecs\sdp_video_format.cc:291] Matched SdpVideoFormat Codec name: VP9, parameters: { } with Codec name: VP9, parameters: { profile-id=0 }, scalability_modes: [L1T1, L1T2, L1T3, L2T1, L2T1h, L2T1_KEY, L2T2, L2T2h, L2T2_KEY, L2T2_KEY_SHIFT, L2T3, L2T3h, L2T3_KEY, L3T1, L3T1h, L3T1_KEY, L3T2, L3T2h, L3T2_KEY, L3T3, L3T3h, L3T3_KEY, S2T1, S2T1h, S2T2, S2T2h, S2T3, S2T3h, S3T1, S3T1h, S3T2, S3T2h, S3T3, S3T3h]
+[2364:33984:0814/153121.168:INFO:third_party\webrtc\api\video_codecs\sdp_video_format.cc:291] Matched SdpVideoFormat Codec name: AV1, parameters: { } with Codec name: AV1, parameters: { level-idx=5 profile=0 tier=0 }, scalability_modes: [L1T1, L1T2, L1T3, L2T1, L2T1h, L2T1_KEY, L2T2, L2T2h, L2T2_KEY, L2T2_KEY_SHIFT, L2T3, L2T3h, L2T3_KEY, L3T1, L3T1h, L3T1_KEY, L3T2, L3T2h, L3T2_KEY, L3T3, L3T3h, L3T3_KEY, S2T1, S2T1h, S2T2, S2T2h, S2T3, S2T3h, S3T1, S3T1h, S3T2, S3T2h, S3T3, S3T3h]
+[2364:33984:0814/153121.168:INFO:third_party\webrtc\api\video_codecs\sdp_video_format.cc:289] Failed to match SdpVideoFormat Codec name: H265, parameters: { }
+[2364:33984:0814/153121.168:INFO:third_party\blink\renderer\modules\peerconnection\peer_connection_dependency_factory.cc:802] Running WebRTC with a combined Network and Worker thread.
+[2364:33984:0814/153121.169:INFO:third_party\webrtc\media\engine\webrtc_voice_engine.cc:477] WebRtcVoiceEngine::WebRtcVoiceEngine
+[2364:30868:0814/153121.169:INFO:third_party\webrtc\media\engine\webrtc_voice_engine.cc:499] WebRtcVoiceEngine::Init
+[2364:30868:0814/153121.169:INFO:third_party\webrtc\media\engine\webrtc_voice_engine.cc:602] WebRtcVoiceEngine::ApplyOptions: AudioOptions {aec: 1, agc: 1, ns: 1, hf: 1, swap: 0, audio_jitter_buffer_max_packets: 200, audio_jitter_buffer_fast_accelerate: 0, audio_jitter_buffer_min_delay_ms: 0, }
+[2364:30868:0814/153121.172:INFO:third_party\webrtc\pc\peer_connection_factory.cc:408] Using default network controller factory
+[2364:30868:0814/153121.172:INFO:third_party\webrtc\modules\pacing\bitrate_prober.cc:54] Bandwidth probing enabled, set to inactive
+[2364:30868:0814/153121.172:INFO:third_party\webrtc\modules\remote_bitrate_estimator\transport_sequence_number_feedback_generator.cc:52] Maximum interval between transport feedback RTCP messages: 250 ms
+[2364:30868:0814/153121.172:INFO:third_party\webrtc\modules\remote_bitrate_estimator\aimd_rate_control.cc:88] Using aimd rate control with back off factor 0.85
+[2364:30868:0814/153121.172:INFO:third_party\webrtc\modules\remote_bitrate_estimator\remote_bitrate_estimator_single_stream.cc:59] RemoteBitrateEstimatorSingleStream: Instantiating.
+[2364:30868:0814/153121.176:INFO:third_party\webrtc\rtc_base\openssl_key_pair.cc:36] Making key pair
+[2364:30868:0814/153121.177:INFO:third_party\webrtc\rtc_base\openssl_key_pair.cc:89] Returning key pair
+[2364:30868:0814/153121.177:INFO:third_party\webrtc\rtc_base\boringssl_certificate.cc:186] Making certificate for WebRTC
+[2364:30868:0814/153121.177:INFO:third_party\webrtc\rtc_base\boringssl_certificate.cc:242] Returning certificate
+[2364:30868:0814/153121.181:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:553] Set backup connection ping interval to 25000 milliseconds.
+[2364:30868:0814/153121.181:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:562] Set ICE receiving timeout to 2500 milliseconds
+[2364:30868:0814/153121.181:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:569] Set ping most likely connection to 0
+[2364:30868:0814/153121.181:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:576] Set stable_writable_connection_ping_interval to 2500
+[2364:30868:0814/153121.181:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:589] Set presume writable when fully relayed to 0
+[2364:30868:0814/153121.181:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:607] Set regather_on_failed_networks_interval to 300000
+[2364:30868:0814/153121.181:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:614] Set receiving_switching_delay to 1000
+[2364:30868:0814/153121.181:INFO:third_party\webrtc\pc\jsep_transport_controller.cc:1188] Creating DtlsSrtpTransport.
+[2364:30868:0814/153121.181:INFO:third_party\webrtc\pc\dtls_srtp_transport.cc:72] Setting RTP Transport on 0 transport 0x28bc18695800
+[2364:30868:0814/153121.182:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:487] Set ICE ufrag: qrAV pwd: 6DXdDqVxIEjzUwHOkLG3oFoe on transport 0
+[2364:33984:0814/153121.182:INFO:third_party\webrtc\pc\peer_connection.cc:2082] Creating data channel, mid=0
+[2364:33984:0814/153121.183:INFO:third_party\webrtc\pc\sdp_offer_answer.cc:3090] Session: 7348662470315975987 Old state: stable New state: have-local-offer
+[2364:30868:0814/153121.185:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:367] Start getting ports with turn_port_prune_policy 0
+[20704:13200:0814/153121.198:INFO:CONSOLE:2] "Error", source: https://client.protechts.net/PXdOjV695v/main.min.js (2)
+[2364:30868:0814/153121.303:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:807] Allocate ports on any any 
+[2364:30868:0814/153121.303:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:897] Network manager has started
+[2364:30868:0814/153121.303:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0.0.0.x/0:Wildcard:id=0]: Allocation Phase=Udp
+[2364:30868:0814/153121.303:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[ecb1000::1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153121.303:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1488] AllocationSequence: UDPPort will be handling the STUN candidate generation.
+[2364:30868:0814/153121.303:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153121.303:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[ecb1000:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153121.303:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]: Allocation Phase=Udp
+[2364:30868:0814/153121.303:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[ecaf700::1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153121.303:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1488] AllocationSequence: UDPPort will be handling the STUN candidate generation.
+[2364:30868:0814/153121.303:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153121.303:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[ecaf700:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153121.322:INFO:third_party\webrtc\p2p\base\stun_port.cc:445] Port[ecb1000:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Starting STUN host lookup for stun.l.google.com:19302
+[2364:30868:0814/153121.322:INFO:third_party\webrtc\p2p\base\stun_port.cc:445] Port[ecaf700:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Starting STUN host lookup for stun.l.google.com:19302
+[2364:30868:0814/153121.361:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0.0.0.x/0:Wildcard:id=0]: Allocation Phase=Relay
+[2364:30868:0814/153121.370:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]: Allocation Phase=Relay
+[11940:23168:0814/153121.347:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0C02700B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[2364:30868:0814/153121.418:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0.0.0.x/0:Wildcard:id=0]: Allocation Phase=Tcp
+[2364:30868:0814/153121.418:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[18694800::1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153121.418:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153121.418:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[18694800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153121.418:INFO:third_party\webrtc\p2p\base\tcp_port.cc:185] Port[18694800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Not listening due to firewall restrictions.
+[2364:30868:0814/153121.443:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]: Allocation Phase=Tcp
+[2364:30868:0814/153121.443:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[e842400::1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153121.443:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153121.443:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[e842400:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153121.443:INFO:third_party\webrtc\p2p\base\tcp_port.cc:185] Port[e842400:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Not listening due to firewall restrictions.
+[30436:24164:0814/153121.495:WARNING:net\dns\host_resolver_dns_task.cc:938] Address list empty after RFC3484 sort
+[11940:23168:0814/153121.419:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0502800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[30436:24164:0814/153121.510:ERROR:services\network\p2p\socket_manager.cc:137] Failed to resolve address for stun.l.google.com., errorcode: -105
+[20388:30496:0814/153121.603:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[11940:23168:0814/153121.627:ERROR:gpu\command_buffer\service\gl_utils.cc:389] [.WebGL-0x28bc0f209400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[11940:23168:0814/153121.712:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0B02800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[2364:30868:0814/153121.747:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[ecb1000:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Gathered candidate: Cand[:867535770:1:udp:2113937151:5c10603e-24d4-46b2-8269-26221b3dd531.local:60039:host::0:qrAV:6DXdDqVxIEjzUwHOkLG3oFoe:0:999:0]
+[20704:13200:0814/153121.747:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0C02700B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://www.linkedin.com/feed/ (0)
+[2364:30868:0814/153121.747:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[ecb1000:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port ready.
+[20704:13200:0814/153121.758:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0502800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://www.linkedin.com/feed/ (0)
+[20704:13200:0814/153121.760:INFO:CONSOLE:0] "[.WebGL-0x28bc0f209400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels", source: https://www.linkedin.com/feed/ (0)
+[20704:13200:0814/153121.761:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0B02800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://www.linkedin.com/feed/ (0)
+[2364:30868:0814/153121.789:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[ecb1000:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Gathered candidate: Cand[:2553957876:1:udp:1677729535:106.195.32.x:60039:srflx:10.186.234.x:60039:qrAV:6DXdDqVxIEjzUwHOkLG3oFoe:0:999:0]
+[2364:30868:0814/153121.789:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[ecb1000:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153121.802:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[ecaf700:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Gathered candidate: Cand[:2869304666:1:udp:2113929727:2ca05a56-5d57-45e7-9269-a0635765b221.local:60040:host::0:qrAV:6DXdDqVxIEjzUwHOkLG3oFoe:0:999:0]
+[2364:30868:0814/153121.802:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[ecaf700:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port ready.
+[2364:30868:0814/153121.802:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1001] Discarding candidate because it doesn't match filter.
+[2364:30868:0814/153121.805:WARNING:third_party\webrtc\p2p\base\stun_port.cc:456] Port[ecaf700:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[2364:30868:0814/153121.805:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[ecaf700:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[14164:22980:0814/153122.111:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[20704:13200:0814/153122.460:WARNING:chrome\browser\media\prefs\capture_device_ranking.h:255] Can't initialize the value of media.audio_input.user_preference_ranking because media.default_audio_capture_device isn't registered or is empty
+[20704:13200:0814/153122.460:WARNING:chrome\browser\media\prefs\capture_device_ranking.h:255] Can't initialize the value of media.video_input.user_preference_ranking because media.default_video_capture_Device isn't registered or is empty
+[11940:23168:0814/153123.404:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0802800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[2364:30868:0814/153123.566:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[18694800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Gathered candidate: Cand[:4202305285:1:tcp:1509957375:65c5ade7-ffb0-4f9f-bc77-64d1843caf02.local:9:host::0:qrAV:6DXdDqVxIEjzUwHOkLG3oFoe:0:999:0]
+[2364:30868:0814/153123.566:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[18694800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port ready.
+[2364:30868:0814/153123.566:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1001] Discarding candidate because it doesn't match filter.
+[2364:30868:0814/153123.566:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[18694800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153123.566:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[e842400:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Gathered candidate: Cand[:3586785218:1:tcp:1509949951:2ca05a56-5d57-45e7-9269-a0635765b221.local:9:host::0:qrAV:6DXdDqVxIEjzUwHOkLG3oFoe:0:999:0]
+[2364:30868:0814/153123.566:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[e842400:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port ready.
+[2364:30868:0814/153123.566:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1001] Discarding candidate because it doesn't match filter.
+[2364:30868:0814/153123.566:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[e842400:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153123.566:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1176] All candidates gathered for 0:1:0
+[2364:30868:0814/153123.566:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:971] P2PTransportChannel: 0, component 1 gathering complete
+[20704:13200:0814/153123.586:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0802800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://merchantpool1.linkedin.com/?session_id=a096cc28-b721-48b9-8cd9-80b244e05eb7&CustomerId=fb6bbd47-fa7c-4264-b4e9-b25948407586&PageId=&w=8DDDB19855F3651&mdt=1755165681131&rticks=1755165681475&u1=&u3=19.0.0&u4=x86&u5=64&u2=(Not%3BA%3DBrand%2C99.0.0.0)%2C(Google%20Chrome%2C139.0.7258.127)%2C(Chromium%2C139.0.7258.127) (0)
+[20704:13200:0814/153125.642:INFO:CONSOLE:8] "visitor.publishDestinations() result: Attempted to attach and load the destination publishing iframe through this API call. Result: The destination publishing iframe was attached and loaded successfully.", source: https://platform.linkedin.com/litms/utag/voyager-web-feed/utag.js?cb=1755165600000 (8)
+[23024:15668:0814/153125.749:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[33916:22648:0814/153126.282:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[3492:30316:0814/153127.667:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[2364:33984:0814/153132.633:INFO:third_party\webrtc\pc\sdp_offer_answer.cc:3090] Session: 7348662470315975987 Old state: have-local-offer New state: closed
+[2364:30868:0814/153132.633:INFO:third_party\webrtc\pc\peer_connection.cc:2539] Tearing down data channel transport for mid=0
+[20704:13200:0814/153142.261:INFO:CONSOLE:2] "Error", source: https://client.protechts.net/PXdOjV695v/main.min.js (2)
+[22948:32796:0814/153142.319:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[31592:18608:0814/153142.490:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[2364:33984:0814/153144.769:INFO:third_party\webrtc\api\video_codecs\sdp_video_format.cc:291] Matched SdpVideoFormat Codec name: VP9, parameters: { } with Codec name: VP9, parameters: { profile-id=0 }, scalability_modes: [L1T1, L1T2, L1T3, L2T1, L2T1h, L2T1_KEY, L2T2, L2T2h, L2T2_KEY, L2T2_KEY_SHIFT, L2T3, L2T3h, L2T3_KEY, L3T1, L3T1h, L3T1_KEY, L3T2, L3T2h, L3T2_KEY, L3T3, L3T3h, L3T3_KEY, S2T1, S2T1h, S2T2, S2T2h, S2T3, S2T3h, S3T1, S3T1h, S3T2, S3T2h, S3T3, S3T3h]
+[2364:33984:0814/153144.769:INFO:third_party\webrtc\api\video_codecs\sdp_video_format.cc:291] Matched SdpVideoFormat Codec name: AV1, parameters: { } with Codec name: AV1, parameters: { level-idx=5 profile=0 tier=0 }, scalability_modes: [L1T1, L1T2, L1T3, L2T1, L2T1h, L2T1_KEY, L2T2, L2T2h, L2T2_KEY, L2T2_KEY_SHIFT, L2T3, L2T3h, L2T3_KEY, L3T1, L3T1h, L3T1_KEY, L3T2, L3T2h, L3T2_KEY, L3T3, L3T3h, L3T3_KEY, S2T1, S2T1h, S2T2, S2T2h, S2T3, S2T3h, S3T1, S3T1h, S3T2, S3T2h, S3T3, S3T3h]
+[2364:33984:0814/153144.769:INFO:third_party\webrtc\api\video_codecs\sdp_video_format.cc:289] Failed to match SdpVideoFormat Codec name: H265, parameters: { }
+[2364:33984:0814/153144.769:INFO:third_party\blink\renderer\modules\peerconnection\peer_connection_dependency_factory.cc:802] Running WebRTC with a combined Network and Worker thread.
+[2364:33984:0814/153144.769:INFO:third_party\webrtc\media\engine\webrtc_voice_engine.cc:477] WebRtcVoiceEngine::WebRtcVoiceEngine
+[2364:30868:0814/153144.769:INFO:third_party\webrtc\media\engine\webrtc_voice_engine.cc:499] WebRtcVoiceEngine::Init
+[2364:30868:0814/153144.770:INFO:third_party\webrtc\media\engine\webrtc_voice_engine.cc:602] WebRtcVoiceEngine::ApplyOptions: AudioOptions {aec: 1, agc: 1, ns: 1, hf: 1, swap: 0, audio_jitter_buffer_max_packets: 200, audio_jitter_buffer_fast_accelerate: 0, audio_jitter_buffer_min_delay_ms: 0, }
+[2364:30868:0814/153144.771:INFO:third_party\webrtc\pc\peer_connection_factory.cc:408] Using default network controller factory
+[2364:30868:0814/153144.771:INFO:third_party\webrtc\modules\pacing\bitrate_prober.cc:54] Bandwidth probing enabled, set to inactive
+[2364:30868:0814/153144.771:INFO:third_party\webrtc\modules\remote_bitrate_estimator\transport_sequence_number_feedback_generator.cc:52] Maximum interval between transport feedback RTCP messages: 250 ms
+[2364:30868:0814/153144.772:INFO:third_party\webrtc\modules\remote_bitrate_estimator\aimd_rate_control.cc:88] Using aimd rate control with back off factor 0.85
+[2364:30868:0814/153144.772:INFO:third_party\webrtc\modules\remote_bitrate_estimator\remote_bitrate_estimator_single_stream.cc:59] RemoteBitrateEstimatorSingleStream: Instantiating.
+[2364:30868:0814/153144.773:INFO:third_party\webrtc\rtc_base\openssl_key_pair.cc:36] Making key pair
+[2364:30868:0814/153144.773:INFO:third_party\webrtc\rtc_base\openssl_key_pair.cc:89] Returning key pair
+[2364:30868:0814/153144.773:INFO:third_party\webrtc\rtc_base\boringssl_certificate.cc:186] Making certificate for WebRTC
+[2364:30868:0814/153144.774:INFO:third_party\webrtc\rtc_base\boringssl_certificate.cc:242] Returning certificate
+[2364:30868:0814/153144.776:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:553] Set backup connection ping interval to 25000 milliseconds.
+[2364:30868:0814/153144.776:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:562] Set ICE receiving timeout to 2500 milliseconds
+[2364:30868:0814/153144.776:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:569] Set ping most likely connection to 0
+[2364:30868:0814/153144.776:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:576] Set stable_writable_connection_ping_interval to 2500
+[2364:30868:0814/153144.776:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:589] Set presume writable when fully relayed to 0
+[2364:30868:0814/153144.776:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:607] Set regather_on_failed_networks_interval to 300000
+[2364:30868:0814/153144.776:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:614] Set receiving_switching_delay to 1000
+[2364:30868:0814/153144.776:INFO:third_party\webrtc\pc\jsep_transport_controller.cc:1188] Creating DtlsSrtpTransport.
+[2364:30868:0814/153144.776:INFO:third_party\webrtc\pc\dtls_srtp_transport.cc:72] Setting RTP Transport on 0 transport 0x28bc0e842400
+[2364:30868:0814/153144.776:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:487] Set ICE ufrag: UFSV pwd: ICTMeq0MG0XoSAJ1bWLfJ3ko on transport 0
+[2364:33984:0814/153144.776:INFO:third_party\webrtc\pc\peer_connection.cc:2082] Creating data channel, mid=0
+[2364:33984:0814/153144.776:INFO:third_party\webrtc\pc\sdp_offer_answer.cc:3090] Session: 13823463994054118 Old state: stable New state: have-local-offer
+[2364:30868:0814/153144.776:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:367] Start getting ports with turn_port_prune_policy 0
+[20704:13200:0814/153144.778:WARNING:chrome\browser\media\prefs\capture_device_ranking.h:255] Can't initialize the value of media.audio_input.user_preference_ranking because media.default_audio_capture_device isn't registered or is empty
+[20704:13200:0814/153144.778:WARNING:chrome\browser\media\prefs\capture_device_ranking.h:255] Can't initialize the value of media.video_input.user_preference_ranking because media.default_video_capture_Device isn't registered or is empty
+[2364:30868:0814/153144.818:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:807] Allocate ports on any any 
+[2364:30868:0814/153144.818:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:897] Network manager has started
+[2364:30868:0814/153144.818:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0.0.0.x/0:Wildcard:id=0]: Allocation Phase=Udp
+[2364:30868:0814/153144.818:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[ecaf700::1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153144.818:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1488] AllocationSequence: UDPPort will be handling the STUN candidate generation.
+[2364:30868:0814/153144.818:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153144.818:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[ecaf700:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153144.818:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]: Allocation Phase=Udp
+[2364:30868:0814/153144.818:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[ecb1000::1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153144.818:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1488] AllocationSequence: UDPPort will be handling the STUN candidate generation.
+[2364:30868:0814/153144.818:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153144.818:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[ecb1000:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153144.820:INFO:third_party\webrtc\p2p\base\stun_port.cc:445] Port[ecaf700:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Starting STUN host lookup for stun.l.google.com:19302
+[2364:30868:0814/153144.820:INFO:third_party\webrtc\p2p\base\stun_port.cc:445] Port[ecb1000:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Starting STUN host lookup for stun.l.google.com:19302
+[11940:23168:0814/153144.830:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0B02800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[11940:23168:0814/153144.848:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0802800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[11940:23168:0814/153144.861:ERROR:gpu\command_buffer\service\gl_utils.cc:389] [.WebGL-0x28bc1a4adc00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[2364:30868:0814/153144.875:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0.0.0.x/0:Wildcard:id=0]: Allocation Phase=Relay
+[2364:30868:0814/153144.875:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]: Allocation Phase=Relay
+[11940:23168:0814/153144.901:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0C03900B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[20704:13200:0814/153144.924:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0B02800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://www.linkedin.com/jobs/search/?currentJobId=4274395060&distance=100&f_AL=true&f_E=%2C2%2C3%2C4&f_JT=%2CF%2CC%2CT&keywords=Data%20Scientist&location=United%20States (0)
+[20704:13200:0814/153144.926:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0802800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://www.linkedin.com/jobs/search/?currentJobId=4274395060&distance=100&f_AL=true&f_E=%2C2%2C3%2C4&f_JT=%2CF%2CC%2CT&keywords=Data%20Scientist&location=United%20States (0)
+[20704:13200:0814/153144.926:INFO:CONSOLE:0] "[.WebGL-0x28bc1a4adc00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels", source: https://www.linkedin.com/jobs/search/?currentJobId=4274395060&distance=100&f_AL=true&f_E=%2C2%2C3%2C4&f_JT=%2CF%2CC%2CT&keywords=Data%20Scientist&location=United%20States (0)
+[20704:13200:0814/153144.927:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0C03900B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://www.linkedin.com/jobs/search/?currentJobId=4274395060&distance=100&f_AL=true&f_E=%2C2%2C3%2C4&f_JT=%2CF%2CC%2CT&keywords=Data%20Scientist&location=United%20States (0)
+[2364:30868:0814/153144.929:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[ecaf700:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Gathered candidate: Cand[:307034812:1:udp:2113937151:6f8a89cc-b00f-428a-8a66-656be8e6181c.local:61135:host::0:UFSV:ICTMeq0MG0XoSAJ1bWLfJ3ko:0:999:0]
+[2364:30868:0814/153144.929:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[ecaf700:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port ready.
+[30436:24164:0814/153144.935:WARNING:net\dns\host_resolver_dns_task.cc:938] Address list empty after RFC3484 sort
+[2364:30868:0814/153144.937:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0.0.0.x/0:Wildcard:id=0]: Allocation Phase=Tcp
+[2364:30868:0814/153144.937:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[18694800::1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153144.937:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153144.937:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[18694800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153144.937:INFO:third_party\webrtc\p2p\base\tcp_port.cc:185] Port[18694800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Not listening due to firewall restrictions.
+[2364:30868:0814/153144.937:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]: Allocation Phase=Tcp
+[2364:30868:0814/153144.937:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[18695800::1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153144.937:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153144.937:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[18695800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153144.937:INFO:third_party\webrtc\p2p\base\tcp_port.cc:185] Port[18695800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Not listening due to firewall restrictions.
+[30436:24164:0814/153144.942:ERROR:services\network\p2p\socket_manager.cc:137] Failed to resolve address for stun.l.google.com., errorcode: -105
+[2364:30868:0814/153144.955:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[ecb1000:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Gathered candidate: Cand[:2310048666:1:udp:2113929727:c18666cb-841b-4173-87b9-ea86e2d64e5a.local:61136:host::0:UFSV:ICTMeq0MG0XoSAJ1bWLfJ3ko:0:999:0]
+[2364:30868:0814/153144.955:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[ecb1000:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port ready.
+[2364:30868:0814/153144.955:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1001] Discarding candidate because it doesn't match filter.
+[2364:30868:0814/153144.979:WARNING:third_party\webrtc\p2p\base\stun_port.cc:456] Port[ecb1000:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[2364:30868:0814/153144.979:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[ecb1000:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153144.997:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[ecaf700:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Gathered candidate: Cand[:3102554405:1:udp:1677729535:106.195.32.x:61135:srflx:10.186.234.x:61135:UFSV:ICTMeq0MG0XoSAJ1bWLfJ3ko:0:999:0]
+[2364:30868:0814/153144.997:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[ecaf700:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153145.027:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[18694800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Gathered candidate: Cand[:1916124149:1:tcp:1509957375:92b2573a-f04c-437a-9edb-5857a141f80e.local:9:host::0:UFSV:ICTMeq0MG0XoSAJ1bWLfJ3ko:0:999:0]
+[2364:30868:0814/153145.027:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[18694800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port ready.
+[2364:30868:0814/153145.027:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1001] Discarding candidate because it doesn't match filter.
+[2364:30868:0814/153145.027:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[18694800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153145.091:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[18695800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Gathered candidate: Cand[:1998216974:1:tcp:1509949951:c18666cb-841b-4173-87b9-ea86e2d64e5a.local:9:host::0:UFSV:ICTMeq0MG0XoSAJ1bWLfJ3ko:0:999:0]
+[2364:30868:0814/153145.091:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[18695800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port ready.
+[2364:30868:0814/153145.091:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1001] Discarding candidate because it doesn't match filter.
+[2364:30868:0814/153145.091:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[18695800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153145.091:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1176] All candidates gathered for 0:1:0
+[2364:30868:0814/153145.091:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:971] P2PTransportChannel: 0, component 1 gathering complete
+[20704:13200:0814/153145.343:INFO:CONSOLE:8] "visitor.publishDestinations() result: Attempted to attach and load the destination publishing iframe through this API call. Result: The destination publishing iframe was attached and loaded successfully.", source: https://platform.linkedin.com/litms/utag/voyager-web-jobs/utag.js?cb=1755165600000 (8)
+[21124:27676:0814/153145.388:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[24324:16496:0814/153145.675:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[15648:12320:0814/153147.082:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[4996:11744:0814/153147.313:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[2364:33984:0814/153153.223:INFO:third_party\webrtc\pc\peer_connection.cc:632] Session: 7348662470315975987 is destroyed.
+[2364:30868:0814/153153.223:INFO:third_party\webrtc\media\engine\webrtc_voice_engine.cc:485] WebRtcVoiceEngine::~WebRtcVoiceEngine
+[2364:30868:0814/153153.223:WARNING:third_party\webrtc\media\engine\webrtc_voice_engine.cc:805] Attempting to stop aecdump when no audio processing module is present
+[20704:16516:0814/153242.752:ERROR:google_apis\gcm\engine\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[20704:16516:0814/153313.093:ERROR:google_apis\gcm\engine\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[20704:16516:0814/153354.779:ERROR:google_apis\gcm\engine\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[20704:13200:0814/153355.493:INFO:CONSOLE:8] "visitor.publishDestinations() result: The destination publishing iframe is already attached and loaded.", source: https://platform.linkedin.com/litms/utag/voyager-web-jobs/utag.js?cb=1755165600000 (8)
+[20704:13200:0814/153437.132:INFO:CONSOLE:0] "Clear-Site-Data header on 'https://www.linkedin.com/realtime/realtimeFrontendClientConnectivityTracking?action=sendHeartbeat': Cleared data types: "storage".", source: https://www.linkedin.com/jobs/search/?currentJobId=4274395060&distance=100&f_AL=true&f_E=%2C2%2C3%2C4&f_JT=%2CF%2CC%2CT&keywords=Data%20Scientist&location=United%20States (0)
+[20704:13200:0814/153437.136:INFO:CONSOLE:10163] "Realtime: session heartbeat failed [object Object]", source: https://static.licdn.com/aero-v1/sc/h/eyxeanpqiuedluk6pa0163k6j (10163)
+[20704:13200:0814/153442.081:INFO:CONSOLE:8] "visitor.publishDestinations() result: The destination publishing iframe is already attached and loaded.", source: https://platform.linkedin.com/litms/utag/voyager-web-jobs/utag.js?cb=1755165600000 (8)
+[20704:13200:0814/153526.951:INFO:CONSOLE:0] "Uncaught (in promise) Error: [informational-log] Error uploading document in document-upload: Ember Data Request POST /voyager/api/voyagerJobsDashAmbryUploadUrls?action=requestUrl returned a 401
+Payload (application/vnd.linkedin.normalized+json+2.1)
+[object Object]", source: https://www.linkedin.com/jobs/search/?currentJobId=4274395060&distance=100&f_AL=true&f_E=%2C2%2C3%2C4&f_JT=%2CF%2CC%2CT&keywords=Data%20Scientist&location=United%20States (0)
+[2364:33984:0814/153527.379:INFO:third_party\webrtc\pc\sdp_offer_answer.cc:3090] Session: 13823463994054118 Old state: have-local-offer New state: closed
+[2364:30868:0814/153527.379:INFO:third_party\webrtc\pc\peer_connection.cc:2539] Tearing down data channel transport for mid=0
+[20704:16516:0814/153527.471:ERROR:google_apis\gcm\engine\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[2364:33984:0814/153528.380:INFO:third_party\webrtc\api\video_codecs\sdp_video_format.cc:291] Matched SdpVideoFormat Codec name: VP9, parameters: { } with Codec name: VP9, parameters: { profile-id=0 }, scalability_modes: [L1T1, L1T2, L1T3, L2T1, L2T1h, L2T1_KEY, L2T2, L2T2h, L2T2_KEY, L2T2_KEY_SHIFT, L2T3, L2T3h, L2T3_KEY, L3T1, L3T1h, L3T1_KEY, L3T2, L3T2h, L3T2_KEY, L3T3, L3T3h, L3T3_KEY, S2T1, S2T1h, S2T2, S2T2h, S2T3, S2T3h, S3T1, S3T1h, S3T2, S3T2h, S3T3, S3T3h]
+[2364:33984:0814/153528.380:INFO:third_party\webrtc\api\video_codecs\sdp_video_format.cc:291] Matched SdpVideoFormat Codec name: AV1, parameters: { } with Codec name: AV1, parameters: { level-idx=5 profile=0 tier=0 }, scalability_modes: [L1T1, L1T2, L1T3, L2T1, L2T1h, L2T1_KEY, L2T2, L2T2h, L2T2_KEY, L2T2_KEY_SHIFT, L2T3, L2T3h, L2T3_KEY, L3T1, L3T1h, L3T1_KEY, L3T2, L3T2h, L3T2_KEY, L3T3, L3T3h, L3T3_KEY, S2T1, S2T1h, S2T2, S2T2h, S2T3, S2T3h, S3T1, S3T1h, S3T2, S3T2h, S3T3, S3T3h]
+[2364:33984:0814/153528.380:INFO:third_party\webrtc\api\video_codecs\sdp_video_format.cc:289] Failed to match SdpVideoFormat Codec name: H265, parameters: { }
+[2364:33984:0814/153528.380:INFO:third_party\blink\renderer\modules\peerconnection\peer_connection_dependency_factory.cc:802] Running WebRTC with a combined Network and Worker thread.
+[2364:33984:0814/153528.380:INFO:third_party\webrtc\media\engine\webrtc_voice_engine.cc:477] WebRtcVoiceEngine::WebRtcVoiceEngine
+[2364:30868:0814/153528.380:INFO:third_party\webrtc\media\engine\webrtc_voice_engine.cc:499] WebRtcVoiceEngine::Init
+[2364:30868:0814/153528.381:INFO:third_party\webrtc\media\engine\webrtc_voice_engine.cc:602] WebRtcVoiceEngine::ApplyOptions: AudioOptions {aec: 1, agc: 1, ns: 1, hf: 1, swap: 0, audio_jitter_buffer_max_packets: 200, audio_jitter_buffer_fast_accelerate: 0, audio_jitter_buffer_min_delay_ms: 0, }
+[2364:30868:0814/153528.385:INFO:third_party\webrtc\pc\peer_connection_factory.cc:408] Using default network controller factory
+[2364:30868:0814/153528.385:INFO:third_party\webrtc\modules\pacing\bitrate_prober.cc:54] Bandwidth probing enabled, set to inactive
+[2364:30868:0814/153528.385:INFO:third_party\webrtc\modules\remote_bitrate_estimator\transport_sequence_number_feedback_generator.cc:52] Maximum interval between transport feedback RTCP messages: 250 ms
+[2364:30868:0814/153528.385:INFO:third_party\webrtc\modules\remote_bitrate_estimator\aimd_rate_control.cc:88] Using aimd rate control with back off factor 0.85
+[2364:30868:0814/153528.385:INFO:third_party\webrtc\modules\remote_bitrate_estimator\remote_bitrate_estimator_single_stream.cc:59] RemoteBitrateEstimatorSingleStream: Instantiating.
+[2364:30868:0814/153528.388:INFO:third_party\webrtc\rtc_base\openssl_key_pair.cc:36] Making key pair
+[2364:30868:0814/153528.388:INFO:third_party\webrtc\rtc_base\openssl_key_pair.cc:89] Returning key pair
+[2364:30868:0814/153528.388:INFO:third_party\webrtc\rtc_base\boringssl_certificate.cc:186] Making certificate for WebRTC
+[2364:30868:0814/153528.388:INFO:third_party\webrtc\rtc_base\boringssl_certificate.cc:242] Returning certificate
+[20704:13200:0814/153528.391:WARNING:chrome\browser\media\prefs\capture_device_ranking.h:255] Can't initialize the value of media.audio_input.user_preference_ranking because media.default_audio_capture_device isn't registered or is empty
+[20704:13200:0814/153528.391:WARNING:chrome\browser\media\prefs\capture_device_ranking.h:255] Can't initialize the value of media.video_input.user_preference_ranking because media.default_video_capture_Device isn't registered or is empty
+[11940:23168:0814/153528.464:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0802800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[11940:23168:0814/153528.595:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0102900B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[11940:23168:0814/153528.704:ERROR:gpu\command_buffer\service\gl_utils.cc:389] [.WebGL-0x28bc007fa200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[11940:23168:0814/153528.751:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0C03900B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[2364:30868:0814/153529.754:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:553] Set backup connection ping interval to 25000 milliseconds.
+[2364:30868:0814/153529.754:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:562] Set ICE receiving timeout to 2500 milliseconds
+[2364:30868:0814/153529.754:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:569] Set ping most likely connection to 0
+[2364:30868:0814/153529.754:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:576] Set stable_writable_connection_ping_interval to 2500
+[2364:30868:0814/153529.754:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:589] Set presume writable when fully relayed to 0
+[2364:30868:0814/153529.754:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:607] Set regather_on_failed_networks_interval to 300000
+[2364:30868:0814/153529.754:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:614] Set receiving_switching_delay to 1000
+[2364:30868:0814/153529.754:INFO:third_party\webrtc\pc\jsep_transport_controller.cc:1188] Creating DtlsSrtpTransport.
+[2364:30868:0814/153529.754:INFO:third_party\webrtc\pc\dtls_srtp_transport.cc:72] Setting RTP Transport on 0 transport 0x28bc18696400
+[2364:30868:0814/153529.755:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:487] Set ICE ufrag: tsqs pwd: pG1XzxDS09wXveXyVSmwrOV6 on transport 0
+[2364:33984:0814/153529.755:INFO:third_party\webrtc\pc\peer_connection.cc:2082] Creating data channel, mid=0
+[2364:33984:0814/153529.755:INFO:third_party\webrtc\pc\sdp_offer_answer.cc:3090] Session: 3242485397916909450 Old state: stable New state: have-local-offer
+[20704:13200:0814/153529.755:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0802800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://www.linkedin.com/ (0)
+[2364:30868:0814/153529.755:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:367] Start getting ports with turn_port_prune_policy 0
+[20704:13200:0814/153529.761:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0102900B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://www.linkedin.com/ (0)
+[20704:13200:0814/153529.761:INFO:CONSOLE:0] "[.WebGL-0x28bc007fa200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels", source: https://www.linkedin.com/ (0)
+[20704:13200:0814/153529.765:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0C03900B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://www.linkedin.com/ (0)
+[2364:30868:0814/153529.838:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:807] Allocate ports on any any 
+[2364:30868:0814/153529.838:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:897] Network manager has started
+[2364:30868:0814/153529.838:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0.0.0.x/0:Wildcard:id=0]: Allocation Phase=Udp
+[2364:30868:0814/153529.838:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[eb32500::1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153529.838:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1488] AllocationSequence: UDPPort will be handling the STUN candidate generation.
+[2364:30868:0814/153529.838:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153529.838:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[eb32500:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153529.838:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]: Allocation Phase=Udp
+[2364:30868:0814/153529.838:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[eb34d00::1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153529.838:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1488] AllocationSequence: UDPPort will be handling the STUN candidate generation.
+[2364:30868:0814/153529.838:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153529.838:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[eb34d00:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153529.881:INFO:third_party\webrtc\p2p\base\stun_port.cc:445] Port[eb32500:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Starting STUN host lookup for stun.l.google.com:19302
+[2364:30868:0814/153529.881:INFO:third_party\webrtc\p2p\base\stun_port.cc:445] Port[eb34d00:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Starting STUN host lookup for stun.l.google.com:19302
+[2364:30868:0814/153529.903:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0.0.0.x/0:Wildcard:id=0]: Allocation Phase=Relay
+[2364:30868:0814/153529.903:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]: Allocation Phase=Relay
+[20704:13200:0814/153529.936:INFO:CONSOLE:169] "[GSI_LOGGER]: Your client application may not display the Google One Tap in its default position. When FedCM becomes mandatory, One Tap only displays in the default position. Refer to the migration guide to update your code accordingly and opt-in to FedCM to test your changes. Learn more: https://developers.google.com/identity/gsi/web/guides/fedcm-migration?s=dc#layout", source: https://static.licdn.com/aero-v1/sc/h/29rdkxlvag0d3cpj96fiilbju (169)
+[20704:13200:0814/153529.936:INFO:CONSOLE:169] "[GSI_LOGGER]: Your client application uses one of the Google One Tap prompt UI status methods that may stop functioning when FedCM becomes mandatory. Refer to the migration guide to update your code accordingly and opt-in to FedCM to test your changes. Learn more: https://developers.google.com/identity/gsi/web/guides/fedcm-migration?s=dc#display_moment and https://developers.google.com/identity/gsi/web/guides/fedcm-migration?s=dc#skipped_moment", source: https://static.licdn.com/aero-v1/sc/h/29rdkxlvag0d3cpj96fiilbju (169)
+[20704:13200:0814/153529.936:INFO:CONSOLE:169] "[GSI_LOGGER]: Currently, you disable FedCM on Google One Tap. FedCM for One Tap will become mandatory starting Oct 2024, and you won’t be able to disable it. Refer to the migration guide to update your code accordingly to ensure users will not be blocked from logging in. Learn more: https://developers.google.com/identity/gsi/web/guides/fedcm-migration", source: https://static.licdn.com/aero-v1/sc/h/29rdkxlvag0d3cpj96fiilbju (169)
+[2364:30868:0814/153529.936:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[eb32500:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Gathered candidate: Cand[:2756863730:1:udp:2113937151:eb641eb4-ba7b-4357-93cb-20bb6209fc46.local:58873:host::0:tsqs:pG1XzxDS09wXveXyVSmwrOV6:0:999:0]
+[2364:30868:0814/153529.936:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[eb32500:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port ready.
+[30436:24164:0814/153529.939:WARNING:net\dns\host_resolver_dns_task.cc:938] Address list empty after RFC3484 sort
+[30436:24164:0814/153529.955:ERROR:services\network\p2p\socket_manager.cc:137] Failed to resolve address for stun.l.google.com., errorcode: -105
+[2364:30868:0814/153529.957:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[eb34d00:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Gathered candidate: Cand[:3320060592:1:udp:2113929727:f513dae3-5707-4a0e-90a3-bf2fcfeb7510.local:58874:host::0:tsqs:pG1XzxDS09wXveXyVSmwrOV6:0:999:0]
+[2364:30868:0814/153529.957:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[eb34d00:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port ready.
+[2364:30868:0814/153529.957:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1001] Discarding candidate because it doesn't match filter.
+[2364:30868:0814/153529.958:WARNING:third_party\webrtc\p2p\base\stun_port.cc:456] Port[eb34d00:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[2364:30868:0814/153529.959:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[eb34d00:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153529.980:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0.0.0.x/0:Wildcard:id=0]: Allocation Phase=Tcp
+[2364:30868:0814/153529.980:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[1b2e800::1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153529.980:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153529.980:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[1b2e800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153529.980:INFO:third_party\webrtc\p2p\base\tcp_port.cc:185] Port[1b2e800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Not listening due to firewall restrictions.
+[2364:30868:0814/153529.980:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]: Allocation Phase=Tcp
+[2364:30868:0814/153529.980:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[1b2e400::1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153529.980:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153529.980:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[1b2e400:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153529.980:INFO:third_party\webrtc\p2p\base\tcp_port.cc:185] Port[1b2e400:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Not listening due to firewall restrictions.
+[2364:30868:0814/153530.012:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[1b2e800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Gathered candidate: Cand[:1743683457:1:tcp:1509957375:a0537b21-23e0-4c37-94d0-5cc7d8a432c3.local:9:host::0:tsqs:pG1XzxDS09wXveXyVSmwrOV6:0:999:0]
+[2364:30868:0814/153530.012:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[1b2e800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port ready.
+[2364:30868:0814/153530.012:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1001] Discarding candidate because it doesn't match filter.
+[2364:30868:0814/153530.012:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[1b2e800:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153530.019:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[1b2e400:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Gathered candidate: Cand[:3145351101:1:tcp:1509949951:f513dae3-5707-4a0e-90a3-bf2fcfeb7510.local:9:host::0:tsqs:pG1XzxDS09wXveXyVSmwrOV6:0:999:0]
+[2364:30868:0814/153530.019:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[1b2e400:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port ready.
+[2364:30868:0814/153530.019:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1001] Discarding candidate because it doesn't match filter.
+[2364:30868:0814/153530.019:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[1b2e400:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153530.020:INFO:third_party\webrtc\pc\peer_connection_factory.cc:408] Using default network controller factory
+[2364:30868:0814/153530.020:INFO:third_party\webrtc\modules\pacing\bitrate_prober.cc:54] Bandwidth probing enabled, set to inactive
+[2364:30868:0814/153530.020:INFO:third_party\webrtc\modules\remote_bitrate_estimator\transport_sequence_number_feedback_generator.cc:52] Maximum interval between transport feedback RTCP messages: 250 ms
+[2364:30868:0814/153530.020:INFO:third_party\webrtc\modules\remote_bitrate_estimator\aimd_rate_control.cc:88] Using aimd rate control with back off factor 0.85
+[2364:30868:0814/153530.020:INFO:third_party\webrtc\modules\remote_bitrate_estimator\remote_bitrate_estimator_single_stream.cc:59] RemoteBitrateEstimatorSingleStream: Instantiating.
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\rtc_base\openssl_key_pair.cc:36] Making key pair
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\rtc_base\openssl_key_pair.cc:89] Returning key pair
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\rtc_base\boringssl_certificate.cc:186] Making certificate for WebRTC
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\rtc_base\boringssl_certificate.cc:242] Returning certificate
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:553] Set backup connection ping interval to 25000 milliseconds.
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:562] Set ICE receiving timeout to 2500 milliseconds
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:569] Set ping most likely connection to 0
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:576] Set stable_writable_connection_ping_interval to 2500
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:589] Set presume writable when fully relayed to 0
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:607] Set regather_on_failed_networks_interval to 300000
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:614] Set receiving_switching_delay to 1000
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\pc\jsep_transport_controller.cc:1188] Creating DtlsSrtpTransport.
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\pc\dtls_srtp_transport.cc:72] Setting RTP Transport on 0 transport 0x28bc01b2ec00
+[2364:30868:0814/153530.023:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:487] Set ICE ufrag: TcQj pwd: saiuqNu5WiGPbHV+TI207AUK on transport 0
+[2364:33984:0814/153530.025:INFO:third_party\webrtc\pc\peer_connection.cc:2082] Creating data channel, mid=0
+[20704:13200:0814/153530.025:WARNING:chrome\browser\media\prefs\capture_device_ranking.h:255] Can't initialize the value of media.audio_input.user_preference_ranking because media.default_audio_capture_device isn't registered or is empty
+[20704:13200:0814/153530.025:WARNING:chrome\browser\media\prefs\capture_device_ranking.h:255] Can't initialize the value of media.video_input.user_preference_ranking because media.default_video_capture_Device isn't registered or is empty
+[2364:33984:0814/153530.028:INFO:third_party\webrtc\pc\sdp_offer_answer.cc:3090] Session: 7062312551391059629 Old state: stable New state: have-local-offer
+[2364:30868:0814/153530.028:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:367] Start getting ports with turn_port_prune_policy 0
+[2364:30868:0814/153530.028:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:897] Network manager has started
+[2364:30868:0814/153530.028:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:807] Allocate ports on any any 
+[2364:30868:0814/153530.028:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0.0.0.x/0:Wildcard:id=0]: Allocation Phase=Udp
+[2364:30868:0814/153530.028:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[1a1d7400::1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153530.028:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1488] AllocationSequence: UDPPort will be handling the STUN candidate generation.
+[2364:30868:0814/153530.028:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153530.028:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[1a1d7400:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153530.028:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]: Allocation Phase=Udp
+[2364:30868:0814/153530.028:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[1a1d3800::1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153530.028:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1488] AllocationSequence: UDPPort will be handling the STUN candidate generation.
+[2364:30868:0814/153530.028:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153530.028:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[1a1d3800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153530.036:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[eb32500:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Gathered candidate: Cand[:4205400541:1:udp:1677729535:106.195.32.x:58873:srflx:10.186.234.x:58873:tsqs:pG1XzxDS09wXveXyVSmwrOV6:0:999:0]
+[2364:30868:0814/153530.036:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[eb32500:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153530.037:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1176] All candidates gathered for 0:1:0
+[2364:30868:0814/153530.037:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:971] P2PTransportChannel: 0, component 1 gathering complete
+[2364:30868:0814/153530.041:INFO:third_party\webrtc\p2p\base\stun_port.cc:445] Port[1a1d7400:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Starting STUN host lookup for stun.l.google.com:19302
+[2364:30868:0814/153530.042:INFO:third_party\webrtc\p2p\base\stun_port.cc:445] Port[1a1d3800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Starting STUN host lookup for stun.l.google.com:19302
+[2364:30868:0814/153530.042:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[1a1d7400:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Gathered candidate: Cand[:3206068094:1:udp:2113937151:eb641eb4-ba7b-4357-93cb-20bb6209fc46.local:61748:host::0:TcQj:saiuqNu5WiGPbHV+TI207AUK:0:999:0]
+[2364:30868:0814/153530.042:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[1a1d7400:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port ready.
+[2364:30868:0814/153530.042:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[1a1d3800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Gathered candidate: Cand[:3735997244:1:udp:2113929727:f513dae3-5707-4a0e-90a3-bf2fcfeb7510.local:61749:host::0:TcQj:saiuqNu5WiGPbHV+TI207AUK:0:999:0]
+[2364:30868:0814/153530.042:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[1a1d3800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port ready.
+[2364:30868:0814/153530.042:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1001] Discarding candidate because it doesn't match filter.
+[30436:24164:0814/153530.047:WARNING:net\dns\host_resolver_dns_task.cc:938] Address list empty after RFC3484 sort
+[30436:24164:0814/153530.049:ERROR:services\network\p2p\socket_manager.cc:137] Failed to resolve address for stun.l.google.com., errorcode: -105
+[2364:30868:0814/153530.086:WARNING:third_party\webrtc\p2p\base\stun_port.cc:456] Port[1a1d3800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
+[2364:30868:0814/153530.086:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[1a1d3800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153530.098:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[1a1d7400:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Gathered candidate: Cand[:3789783121:1:udp:1677729535:106.195.32.x:61748:srflx:10.186.234.x:61748:TcQj:saiuqNu5WiGPbHV+TI207AUK:0:999:0]
+[2364:30868:0814/153530.098:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[1a1d7400:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153530.098:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0.0.0.x/0:Wildcard:id=0]: Allocation Phase=Relay
+[2364:30868:0814/153530.098:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]: Allocation Phase=Relay
+[11940:23168:0814/153530.121:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0F03900B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[11940:23168:0814/153530.136:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0203A00B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[11940:23168:0814/153530.152:ERROR:gpu\command_buffer\service\gl_utils.cc:389] [.WebGL-0x28bc0f204e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[11940:23168:0814/153530.195:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0503A00B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[20704:13200:0814/153530.213:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0F03900B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://www.linkedin.com/ (0)
+[20704:13200:0814/153530.213:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0203A00B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://www.linkedin.com/ (0)
+[20704:13200:0814/153530.214:INFO:CONSOLE:0] "[.WebGL-0x28bc0f204e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)", source: https://www.linkedin.com/ (0)
+[20704:13200:0814/153530.214:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0503A00B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://www.linkedin.com/ (0)
+[20704:13200:0814/153530.237:INFO:CONSOLE:2] "Error", source: https://client.protechts.net/PXdOjV695v/main.min.js (2)
+[2364:30868:0814/153530.353:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0.0.0.x/0:Wildcard:id=0]: Allocation Phase=Tcp
+[2364:30868:0814/153530.353:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[ecf9c00::1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153530.353:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153530.353:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[ecf9c00:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153530.353:INFO:third_party\webrtc\p2p\base\tcp_port.cc:185] Port[ecf9c00:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Not listening due to firewall restrictions.
+[2364:30868:0814/153530.353:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1406] Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]: Allocation Phase=Tcp
+[2364:30868:0814/153530.353:INFO:third_party\webrtc\p2p\base\port.cc:146] Port[ecf9800::1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port created with network cost 999
+[2364:30868:0814/153530.353:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:920] Adding allocated port for 0
+[2364:30868:0814/153530.353:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:940] Port[ecf9800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Added port to allocator
+[2364:30868:0814/153530.353:INFO:third_party\webrtc\p2p\base\tcp_port.cc:185] Port[ecf9800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Not listening due to firewall restrictions.
+[2364:30868:0814/153530.392:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[ecf9c00:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Gathered candidate: Cand[:2091167245:1:tcp:1509957375:a0537b21-23e0-4c37-94d0-5cc7d8a432c3.local:9:host::0:TcQj:saiuqNu5WiGPbHV+TI207AUK:0:999:0]
+[2364:30868:0814/153530.394:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[ecf9c00:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port ready.
+[2364:30868:0814/153530.394:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1001] Discarding candidate because it doesn't match filter.
+[2364:30868:0814/153530.394:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[ecf9c00:0:1:0:host:Net[any:0.0.0.x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153530.394:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:957] Port[ecf9800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Gathered candidate: Cand[:2687561265:1:tcp:1509949951:f513dae3-5707-4a0e-90a3-bf2fcfeb7510.local:9:host::0:TcQj:saiuqNu5WiGPbHV+TI207AUK:0:999:0]
+[2364:30868:0814/153530.394:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:990] Port[ecf9800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port ready.
+[2364:30868:0814/153530.394:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1001] Discarding candidate because it doesn't match filter.
+[2364:30868:0814/153530.394:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1102] Port[ecf9800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: Port completed gathering candidates.
+[2364:30868:0814/153530.394:INFO:third_party\webrtc\p2p\client\basic_port_allocator.cc:1176] All candidates gathered for 0:1:0
+[2364:30868:0814/153530.394:INFO:third_party\webrtc\p2p\base\p2p_transport_channel.cc:971] P2PTransportChannel: 0, component 1 gathering complete
+[17048:25408:0814/153530.692:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[3736:21276:0814/153530.716:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[20704:13200:0814/153530.850:INFO:CONSOLE:8] "visitor.publishDestinations() result: Attempted to attach and load the destination publishing iframe through this API call. Result: The destination publishing iframe was attached and loaded successfully.", source: https://platform.linkedin.com/litms/utag/homepage-guest-frontend/utag.js?cb=1755165900000 (8)
+[5612:18916:0814/153531.133:INFO:third_party\webrtc\rtc_base\cpu_info.cc:88] Available number of cores: 12
+[20704:13200:0814/153531.788:INFO:CONSOLE:1] "Error: ns!", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.906:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.906:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.906:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.906:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.906:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.906:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.906:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.906:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.906:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.907:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.907:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.907:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.907:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.908:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.908:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.908:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.908:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.908:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.908:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.908:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.908:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.908:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.908:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.908:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.909:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.909:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.910:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.911:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.911:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.912:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.912:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.913:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.913:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.913:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[20704:13200:0814/153531.913:INFO:CONSOLE:1] "console.groupEnd", source: https://cadmus2.script.ac/fs01/main.js (1)
+[11940:23168:0814/153531.943:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0B02800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[20704:13200:0814/153531.966:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0B02800B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://li.protechts.net/index.html?ts=1755165929447&r_id=AAY8UGmhd%2FCRL3DyWJVTZw%3D%3D&app_id=PXdOjV695v&uc=scraping&d_id=31cccb464036bace18fc280b3e7a58df156d29bd8374ee4c33ea46158cc7f594 (0)
+[2364:33984:0814/153559.491:INFO:third_party\webrtc\pc\peer_connection.cc:632] Session: 13823463994054118 is destroyed.
+[2364:30868:0814/153559.493:INFO:third_party\webrtc\media\engine\webrtc_voice_engine.cc:485] WebRtcVoiceEngine::~WebRtcVoiceEngine
+[2364:30868:0814/153559.493:WARNING:third_party\webrtc\media\engine\webrtc_voice_engine.cc:805] Attempting to stop aecdump when no audio processing module is present
+[11940:23168:0814/153605.357:ERROR:gpu\command_buffer\service\gles2_cmd_decoder_passthrough.cc:1096] [GroupMarkerNotSet(crbug.com/242999)!:A0102900B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+[20704:13200:0814/153605.387:INFO:CONSOLE:0] "[GroupMarkerNotSet(crbug.com/242999)!:A0102900B41E0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.", source: https://li.protechts.net/index.html?ts=1755165929447&r_id=AAY8UGmhd%2FCRL3DyWJVTZw%3D%3D&app_id=PXdOjV695v&uc=scraping&d_id=31cccb464036bace18fc280b3e7a58df156d29bd8374ee4c33ea46158cc7f594 (0)

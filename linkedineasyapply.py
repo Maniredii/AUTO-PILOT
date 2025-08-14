@@ -125,9 +125,12 @@ class LinkedinEasyApply:
                         print("Sleeping for " + str(sleep_time / 60) + " minutes.")
                         time.sleep(sleep_time)
                         page_sleep += 1
-            except:
+            except Exception as e:
+                print(f"Error in search for {position} in {location}: {str(e)}")
                 traceback.print_exc()
-                pass
+                # Wait a bit before continuing to next search
+                time.sleep(random.uniform(10, 20))
+                continue
 
             time_left = minimum_page_time - time.time()
             if time_left > 0:
@@ -205,22 +208,42 @@ class LinkedinEasyApply:
 
         except NoSuchElementException:
             print("No job results found using the specified XPaths or class.")
+            # Try to refresh the page and retry
+            try:
+                self.browser.refresh()
+                time.sleep(5)
+                return self.apply_jobs(location)  # Recursive retry
+            except:
+                pass
 
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
-
-        for job_tile in job_list:
-            job_title, company, poster, job_location, apply_method, link = "", "", "", "", "", ""
-
+            # Try to refresh the page and retry
             try:
-                ## patch to incorporate new 'verification' crap by LinkedIn
-                # job_title = job_tile.find_element(By.CLASS_NAME, 'job-card-list__title').text # original code
-                job_title_element = job_tile.find_element(By.CLASS_NAME, 'job-card-list__title--link')
-                job_title = job_title_element.find_element(By.TAG_NAME, 'strong').text
-
-                link = job_tile.find_element(By.CLASS_NAME, 'job-card-list__title--link').get_attribute('href').split('?')[0]
+                self.browser.refresh()
+                time.sleep(5)
+                return self.apply_jobs(location)  # Recursive retry
             except:
                 pass
+
+        job_index = 0
+        while job_index < len(job_list):
+            try:
+                job_tile = job_list[job_index]
+                job_title, company, poster, job_location, apply_method, link = "", "", "", "", "", ""
+
+                try:
+                    ## patch to incorporate new 'verification' crap by LinkedIn
+                    # job_title = job_tile.find_element(By.CLASS_NAME, 'job-card-list__title').text # original code
+                    job_title_element = job_tile.find_element(By.CLASS_NAME, 'job-card-list__title--link')
+                    job_title = job_title_element.find_element(By.TAG_NAME, 'strong').text
+
+                    link = job_tile.find_element(By.CLASS_NAME, 'job-card-list__title--link').get_attribute('href').split('?')[0]
+                except Exception as title_error:
+                    print(f"Could not extract job title/link: {str(title_error)}")
+                    # Skip this job and continue with the next one
+                    job_index += 1
+                    continue
             try:
                 # company = job_tile.find_element(By.CLASS_NAME, 'job-card-container__primary-description').text # original code
                 company = job_tile.find_element(By.CLASS_NAME, 'artdeco-entity-lockup__subtitle').text
@@ -261,12 +284,34 @@ class LinkedinEasyApply:
                     while retries < max_retries:
                         try:
                             job_el = job_tile.find_element(By.CLASS_NAME, 'job-card-list__title--link')
-                            job_el.click()
+                            
+                            # Scroll the element into view first
+                            self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", job_el)
+                            time.sleep(1)
+                            
+                            # Try to click with JavaScript if regular click fails
+                            try:
+                                job_el.click()
+                            except Exception as click_error:
+                                if "element click intercepted" in str(click_error).lower():
+                                    # Use JavaScript click as fallback
+                                    self.browser.execute_script("arguments[0].click();", job_el)
+                                else:
+                                    raise click_error
+                            
                             break
 
                         except StaleElementReferenceException:
                             retries += 1
+                            time.sleep(1)
                             continue
+                        except Exception as e:
+                            if "element click intercepted" in str(e).lower():
+                                retries += 1
+                                time.sleep(2)
+                                continue
+                            else:
+                                raise e
 
                     time.sleep(random.uniform(3, 5))
 
@@ -276,14 +321,15 @@ class LinkedinEasyApply:
                             print(f"Application sent to {company} for the position of {job_title}.")
                         else:
                             print(f"An application for a job at {company} has been submitted earlier.")
-                    except:
+                    except Exception as apply_error:
+                        print(f"Error applying to job: {str(apply_error)}")
                         temp = self.file_name
                         self.file_name = "failed"
                         print("Failed to apply to job. Please submit a bug report with this link: " + link)
                         try:
                             self.write_to_file(company, job_title, link, job_location, location)
-                        except:
-                            pass
+                        except Exception as write_error:
+                            print(f"Could not write to failed file: {str(write_error)}")
                         self.file_name = temp
                         print(f'updated {temp}.')
 
@@ -293,21 +339,37 @@ class LinkedinEasyApply:
                         print(
                             f"Unable to save the job information in the file. The job title {job_title} or company {company} cannot contain special characters,")
                         traceback.print_exc()
+                        except Exception as job_error:
+            print(f"Error processing job at {company}: {str(job_error)}")
+            traceback.print_exc()
+            print(f"Could not apply to the job in {company}")
+            
+            # If we get too many stale element errors, refresh the page
+            if "stale element" in str(job_error).lower():
+                print("Detected stale elements, refreshing page...")
+                try:
+                    self.browser.refresh()
+                    time.sleep(5)
+                    # Re-fetch the job list
+                    return self.apply_jobs(location)
                 except:
-                    traceback.print_exc()
-                    print(f"Could not apply to the job in {company}")
                     pass
+            
+            job_index += 1
+            continue
             else:
                 print(f"Job for {company} by {poster} contains a blacklisted word {word}.")
 
             self.seen_jobs += link
+            job_index += 1
 
     def apply_to_job(self):
         easy_apply_button = None
 
         try:
             easy_apply_button = self.browser.find_element(By.CLASS_NAME, 'jobs-apply-button')
-        except:
+        except Exception as e:
+            print(f"No Easy Apply button found: {str(e)}")
             return False
 
         try:
@@ -319,15 +381,73 @@ class LinkedinEasyApply:
             pass
 
         print("Starting the job application...")
-        easy_apply_button.click()
+        
+        # Try to click with retry logic
+        max_click_retries = 3
+        for click_retry in range(max_click_retries):
+            try:
+                easy_apply_button.click()
+                break
+            except Exception as click_error:
+                if "element click intercepted" in str(click_error).lower() or "stale element" in str(click_error).lower():
+                    if click_retry < max_click_retries - 1:
+                        print(f"Click failed, retrying... ({click_retry + 1}/{max_click_retries})")
+                        time.sleep(2)
+                        # Refresh the button element
+                        try:
+                            easy_apply_button = self.browser.find_element(By.CLASS_NAME, 'jobs-apply-button')
+                        except:
+                            pass
+                        continue
+                    else:
+                        # Use JavaScript as last resort
+                        self.browser.execute_script("arguments[0].click();", easy_apply_button)
+                        break
+                else:
+                    raise click_error
 
         button_text = ""
         submit_application_text = 'submit application'
-        while submit_application_text not in button_text.lower():
+        max_form_attempts = 5
+        form_attempt = 0
+        
+        while submit_application_text not in button_text.lower() and form_attempt < max_form_attempts:
             try:
+                form_attempt += 1
+                print(f"Form attempt {form_attempt}/{max_form_attempts}")
+                
                 self.fill_up()
-                next_button = self.browser.find_element(By.CLASS_NAME, "artdeco-button--primary")
+                
+                # Try multiple selectors for the next button
+                next_button = None
+                button_selectors = [
+                    "artdeco-button--primary",
+                    "artdeco-button--2",
+                    "artdeco-button",
+                    "button[type='submit']",
+                    "button[data-control-name='continue_unify']"
+                ]
+                
+                for selector in button_selectors:
+                    try:
+                        if selector.startswith("button["):
+                            next_button = self.browser.find_element(By.CSS_SELECTOR, selector)
+                        else:
+                            next_button = self.browser.find_element(By.CLASS_NAME, selector)
+                        if next_button and next_button.is_enabled():
+                            break
+                    except:
+                        continue
+                
+                if not next_button:
+                    print("Could not find next button, trying to refresh and retry...")
+                    self.browser.refresh()
+                    time.sleep(3)
+                    continue
+                
                 button_text = next_button.text.lower()
+                print(f"Found button: {button_text}")
+                
                 if submit_application_text in button_text:
                     try:
                         self.unfollow()
@@ -370,13 +490,31 @@ class LinkedinEasyApply:
 
                 if any(error in self.browser.page_source.lower() for error in error_messages):
                     raise Exception("Failed answering required questions or uploading required files.")
-            except:
+            except Exception as e:
+                print(f"Error during application process: {str(e)}")
                 traceback.print_exc()
-                self.browser.find_element(By.CLASS_NAME, 'artdeco-modal__dismiss').click()
-                time.sleep(random.uniform(3, 5))
-                self.browser.find_elements(By.CLASS_NAME, 'artdeco-modal__confirm-dialog-btn')[0].click()
-                time.sleep(random.uniform(3, 5))
-                raise Exception("Failed to apply to job!")
+                
+                # Try to close any open modals
+                try:
+                    dismiss_buttons = self.browser.find_elements(By.CLASS_NAME, 'artdeco-modal__dismiss')
+                    if dismiss_buttons:
+                        dismiss_buttons[0].click()
+                        time.sleep(random.uniform(2, 3))
+                    
+                    confirm_buttons = self.browser.find_elements(By.CLASS_NAME, 'artdeco-modal__confirm-dialog-btn')
+                    if confirm_buttons:
+                        confirm_buttons[0].click()
+                        time.sleep(random.uniform(2, 3))
+                except Exception as close_error:
+                    print(f"Could not close modal: {str(close_error)}")
+                
+                # If we've exhausted all attempts, raise the exception
+                if form_attempt >= max_form_attempts:
+                    print(f"Exhausted {max_form_attempts} form attempts, giving up")
+                    raise Exception("Failed to apply to job after multiple attempts!")
+                else:
+                    print(f"Retrying form... (attempt {form_attempt + 1}/{max_form_attempts})")
+                    continue
 
         closed_notification = False
         time.sleep(random.uniform(3, 5))
@@ -932,6 +1070,8 @@ class LinkedinEasyApply:
             form = easy_apply_modal_content.find_element(By.TAG_NAME, 'form')
             try:
                 label = form.find_element(By.TAG_NAME, 'h3').text.lower()
+                print(f"Filling form section: {label}")
+                
                 if 'home address' in label:
                     self.home_address(form)
                 elif 'contact info' in label:
@@ -940,11 +1080,29 @@ class LinkedinEasyApply:
                     self.send_resume()
                 else:
                     self.additional_questions(form)
+                    
+                print(f"Successfully filled {label} section")
+                
             except Exception as e:
-                print("An exception occurred while filling up the form:")
-                print(e)
-        except:
-            print("An exception occurred while searching for form in modal")
+                print(f"An exception occurred while filling up the form: {str(e)}")
+                traceback.print_exc()
+                # Try to continue anyway
+                pass
+        except Exception as e:
+            print(f"An exception occurred while searching for form in modal: {str(e)}")
+            # This might be a different type of application form, try to continue
+            # Try alternative form selectors
+            try:
+                alternative_forms = self.browser.find_elements(By.TAG_NAME, 'form')
+                if alternative_forms:
+                    print(f"Found {len(alternative_forms)} alternative forms, trying to fill them")
+                    for alt_form in alternative_forms:
+                        try:
+                            self.additional_questions(alt_form)
+                        except:
+                            continue
+            except:
+                pass
 
     def write_to_file(self, company, job_title, link, location, search_location):
         to_write = [company, job_title, link, location, search_location, datetime.now()]
