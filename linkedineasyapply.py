@@ -14,6 +14,17 @@ from selenium.webdriver.support.ui import Select
 from datetime import date, datetime
 from itertools import product
 import re
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
+from selenium.common.exceptions import (
+    TimeoutException, 
+    NoSuchElementException, 
+    ElementClickInterceptedException,
+    StaleElementReferenceException
+)
 
 class LinkedinEasyApply:
     def __init__(self, parameters, driver):
@@ -60,6 +71,10 @@ class LinkedinEasyApply:
         self.prefer_remote = parameters.get('preferRemote', True)
         self.min_salary = parameters.get('minSalary', 50000)
         self.max_salary = parameters.get('maxSalary', 150000)
+        
+        # Current job tracking for skill editor
+        self.current_job_title = None
+        self.current_company = None
 
     def read_job_description_ocr(self, job_element=None):
         """
@@ -576,6 +591,67 @@ class LinkedinEasyApply:
                 return True
             else:
                 print("❌ Low skill match. Consider skipping unless very interested.")
+                
+                # Show skill editor GUI for low skill matches
+                if missing_skills and len(missing_skills) > 2:  # Only show if there are significant missing skills
+                    print("\n🎯 Skill mismatch detected! Opening skill editor...")
+                    print("💡 You can add missing skills to improve your match for future jobs.")
+                    
+                    try:
+                        # Import the skill editor
+                        from skill_editor_gui import show_skill_editor
+                        
+                        # Get current job info for the GUI
+                        job_title = getattr(self, 'current_job_title', 'Unknown Position')
+                        company = getattr(self, 'current_company', 'Unknown Company')
+                        
+                        # Show the skill editor
+                        added_skills, removed_skills = show_skill_editor(
+                            missing_skills, 
+                            self.user_skills, 
+                            job_title, 
+                            company
+                        )
+                        
+                        if added_skills or removed_skills:
+                            print(f"✅ Skills updated - Added: {added_skills}, Removed: {removed_skills}")
+                            
+                            # Update the bot's skill lists
+                            if added_skills:
+                                for skill in added_skills:
+                                    if skill not in self.user_skills:
+                                        self.user_skills.append(skill)
+                                    if skill not in self.user_tech_stack:
+                                        self.user_tech_stack.append(skill)
+                                        
+                            if removed_skills:
+                                for skill in removed_skills:
+                                    if skill in self.user_skills:
+                                        self.user_skills.remove(skill)
+                                    if skill in self.user_tech_stack:
+                                        self.user_tech_stack.remove(skill)
+                            
+                            print("🔄 Skill lists updated for this session!")
+                            
+                            # Recalculate skill match with updated skills
+                            if 'job_skills' in analysis:
+                                updated_skill_match = self.calculate_skill_match_score(
+                                    analysis['job_skills'], 
+                                    self.user_skills
+                                )
+                                print(f"🔄 Updated Skill Match Score: {updated_skill_match['score']}/100")
+                                
+                                # If score improved significantly, reconsider applying
+                                if updated_skill_match['score'] >= 40:
+                                    print("✅ Skill match improved! Proceeding with application.")
+                                    return True
+                        
+                    except ImportError:
+                        print("⚠️  Skill editor GUI not available. Continuing with current decision.")
+                    except Exception as e:
+                        print(f"⚠️  Error showing skill editor: {str(e)}")
+                        print("Continuing with current decision.")
+                
                 return False
         
         # Check remote work preference
@@ -903,7 +979,7 @@ class LinkedinEasyApply:
                         time.sleep(random.uniform(3, 5))
 
                         try:
-                            done_applying = self.apply_to_job()
+                            done_applying = self.apply_to_job(job_tile)
                             if done_applying:
                                 print(f"Application sent to {company} for the position of {job_title}.")
                             else:
@@ -958,275 +1034,434 @@ class LinkedinEasyApply:
                 job_index += 1
                 continue
 
-    def apply_to_job(self):
-        easy_apply_button = None
-
+    def apply_to_job(self, job_tile):
+        """
+        Apply to a specific job
+        """
         try:
-            easy_apply_button = self.browser.find_element(By.CLASS_NAME, 'jobs-apply-button')
-        except Exception as e:
-            print(f"No Easy Apply button found: {str(e)}")
-            return False
-
-        try:
-            job_description_area = self.browser.find_element(By.CLASS_NAME, "jobs-search__job-details--container")
-            print(f"{job_description_area}")
+            # Extract job information
+            job_title, company, poster, job_location, apply_method, link = "", "", "", "", "", ""
             
-            # Read and analyze job description using OCR
-            print("Reading job description with OCR...")
-            job_description_text = self.read_job_description_ocr(job_description_area)
-            
-            if job_description_text:
-                # Analyze the job description
-                analysis = self.analyze_job_description(job_description_text)
-                
-                print("\n" + "="*60)
-                print("🔍 JOB DESCRIPTION ANALYSIS")
-                print("="*60)
-                
-                # Basic job info
-                print(f"📋 Job Type: {analysis.get('job_type', 'unknown').replace('_', ' ').title()}")
-                print(f"📍 Location Type: {analysis.get('location_type', 'unknown').replace('_', ' ').title()}")
-                print(f"💼 Experience Level: {analysis.get('experience_level', 'unknown').title()}")
-                print(f"🏠 Remote Work: {'Yes' if analysis.get('remote_work', False) else 'No'}")
-                print(f"💰 Salary Mentioned: {'Yes' if analysis.get('salary_mentioned', False) else 'No'}")
-                
-                # Skills analysis
-                job_skills = analysis.get('job_skills', [])
-                if job_skills:
-                    print(f"\n🎯 Required Skills ({len(job_skills)}):")
-                    # Group skills by category for better display
-                    programming_skills = ['python', 'javascript', 'java', 'c++', 'c#', 'php', 'ruby', 'go', 'rust', 'swift', 'kotlin', 'scala', 'r', 'matlab', 'perl', 'bash', 'powershell', 'typescript']
-                    framework_skills = ['react', 'angular', 'vue', 'node.js', 'express', 'django', 'flask', 'spring', 'laravel', 'asp.net', 'jquery', 'bootstrap', 'tailwind', 'material-ui', 'redux', 'mobx', 'graphql', 'rest api', 'api development']
-                    database_skills = ['sql', 'mysql', 'postgresql', 'oracle', 'sql server', 'sqlite', 'mongodb', 'redis', 'cassandra', 'dynamodb', 'elasticsearch', 'neo4j', 'firebase']
-                    cloud_devops_skills = ['aws', 'azure', 'google cloud', 'gcp', 'heroku', 'digitalocean', 'linode', 'kubernetes', 'docker', 'terraform', 'cloudformation', 'serverless', 'git', 'github', 'gitlab', 'jenkins', 'circleci', 'travis ci', 'gitlab ci', 'ansible', 'chef', 'puppet', 'vagrant', 'virtualbox', 'vmware']
-                    methodology_skills = ['agile', 'scrum', 'kanban', 'waterfall', 'devops', 'ci/cd', 'tdd', 'bdd', 'lean', 'six sigma', 'prince2', 'pmp']
-                    soft_skill_list = ['leadership', 'communication', 'teamwork', 'problem solving', 'analytical thinking', 'creativity', 'adaptability', 'time management', 'project management']
-                    
-                    skill_categories = {
-                        'Programming': [s for s in job_skills if s.lower() in programming_skills],
-                        'Frameworks': [s for s in job_skills if s.lower() in framework_skills],
-                        'Databases': [s for s in job_skills if s.lower() in database_skills],
-                        'Cloud/DevOps': [s for s in job_skills if s.lower() in cloud_devops_skills],
-                        'Methodologies': [s for s in job_skills if s.lower() in methodology_skills],
-                        'Soft Skills': [s for s in job_skills if s.lower() in soft_skill_list],
-                        'Other': [s for s in job_skills if s.lower() not in programming_skills + framework_skills + database_skills + cloud_devops_skills + methodology_skills + soft_skill_list]
-                    }
-                    
-                    for category, skills in skill_categories.items():
-                        if skills:
-                            print(f"  {category}: {', '.join(skills[:8])}{'...' if len(skills) > 8 else ''}")
-                
-                # Tech stack
-                tech_stack = analysis.get('tech_stack', [])
-                if tech_stack:
-                    print(f"\n🔧 Tech Stack: {', '.join(tech_stack[:10])}{'...' if len(tech_stack) > 10 else ''}")
-                
-                # Red flags
-                red_flags = analysis.get('red_flags', [])
-                if red_flags:
-                    print(f"\n🚨 Red Flags:")
-                    for flag in red_flags:
-                        print(f"  ⚠️  {flag}")
-                
-                # Skill matching results
-                if 'skill_match' in analysis:
-                    skill_match = analysis['skill_match']
-                    print(f"\n🎯 SKILL MATCHING ANALYSIS")
-                    print(f"   Overall Score: {skill_match['score']}/100")
-                    print(f"   Match Percentage: {skill_match['match_percentage']}%")
-                    
-                    if skill_match['matched_skills']:
-                        print(f"   ✅ Matched Skills: {', '.join(skill_match['matched_skills'][:6])}{'...' if len(skill_match['matched_skills']) > 6 else ''}")
-                    
-                    if skill_match['missing_skills']:
-                        print(f"   ❌ Missing Skills: {', '.join(skill_match['missing_skills'][:6])}{'...' if len(skill_match['missing_skills']) > 6 else ''}")
-                    
-                    if skill_match['extra_skills']:
-                        print(f"   🎁 Extra Skills: {', '.join(skill_match['extra_skills'][:6])}{'...' if len(skill_match['extra_skills']) > 6 else ''}")
-                
-                print("="*60)
-                
-                # Make decision based on analysis
-                should_apply = self.should_apply_to_job(analysis, job_description_text)
-                
-                if not should_apply:
-                    print("❌ Job analysis suggests not to apply. Skipping this job.")
-                    return False
-                else:
-                    print("✅ Job analysis suggests this is a good fit. Proceeding with application.")
-            else:
-                print("⚠️  Could not read job description. Proceeding with caution.")
-                print("💡 To enable full job analysis, install Tesseract OCR:")
-                print("   Download from: https://github.com/UB-Mannheim/tesseract/wiki")
-                print("   Check 'Add to PATH' during installation and restart your IDE")
-            
-            self.scroll_slow(job_description_area, end=1600)
-            self.scroll_slow(job_description_area, end=1600, step=400, reverse=True)
-        except Exception as e:
-            print(f"Error reading job description: {str(e)}")
-            # Continue with application even if OCR fails
-            pass
-
-        print("Starting the job application...")
-        
-        # Try to click with retry logic
-        max_click_retries = 3
-        for click_retry in range(max_click_retries):
             try:
-                easy_apply_button.click()
-                break
-            except Exception as click_error:
-                if "element click intercepted" in str(click_error).lower() or "stale element" in str(click_error).lower():
-                    if click_retry < max_click_retries - 1:
-                        print(f"Click failed, retrying... ({click_retry + 1}/{max_click_retries})")
+                job_title_element = job_tile.find_element(By.CLASS_NAME, 'job-card-list__title--link')
+                job_title = job_title_element.find_element(By.TAG_NAME, 'strong').text
+                link = job_tile.find_element(By.CLASS_NAME, 'job-card-list__title--link').get_attribute('href').split('?')[0]
+            except Exception as title_error:
+                print(f"Could not extract job title/link: {str(title_error)}")
+                return False
+            
+            try:
+                company = job_tile.find_element(By.CLASS_NAME, 'artdeco-entity-lockup__subtitle').text
+            except:
+                pass
+                
+            try:
+                hiring_line = job_tile.find_element(By.XPATH, '//span[contains(.,\' is hiring for this\')]')
+                hiring_line_text = hiring_line.text
+                name_terminating_index = hiring_line_text.find(' is hiring for this')
+                if name_terminating_index != -1:
+                    poster = hiring_line_text[:name_terminating_index]
+            except:
+                pass
+                
+            try:
+                job_location = job_tile.find_element(By.CLASS_NAME, 'job-card-container__metadata-item').text
+            except:
+                pass
+                
+            try:
+                apply_method = job_tile.find_element(By.CLASS_NAME, 'job-card-container__apply-method').text
+            except:
+                pass
+            
+            # Store current job info for skill editor
+            self.current_job_title = job_title
+            self.current_company = company
+            
+            print(f"Starting the job application...")
+            print(f"Job: {job_title}")
+            print(f"Company: {company}")
+            print(f"Location: {job_location}")
+            
+            # Check if already applied
+            if link in self.seen_jobs:
+                print(f"Already applied to {job_title} at {company}. Skipping...")
+                return False
+            
+            # Try to click on the job to open it
+            max_retries = 3
+            retries = 0
+            while retries < max_retries:
+                try:
+                    job_el = job_tile.find_element(By.CLASS_NAME, 'job-card-list__title--link')
+                    
+                    # Scroll the element into view first
+                    self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", job_el)
+                    time.sleep(1)
+                    
+                    # Try to click with JavaScript if regular click fails
+                    try:
+                        job_el.click()
+                    except Exception as click_error:
+                        if "element click intercepted" in str(click_error).lower():
+                            # Use JavaScript click as fallback
+                            self.browser.execute_script("arguments[0].click();", job_el)
+                        else:
+                            raise click_error
+                    
+                    break
+                    
+                except StaleElementReferenceException:
+                    retries += 1
+                    time.sleep(1)
+                    continue
+                except Exception as e:
+                    if "element click intercepted" in str(e).lower():
+                        retries += 1
                         time.sleep(2)
-                        # Refresh the button element
-                        try:
-                            easy_apply_button = self.browser.find_element(By.CLASS_NAME, 'jobs-apply-button')
-                        except:
-                            pass
                         continue
                     else:
-                        # Use JavaScript as last resort
-                        self.browser.execute_script("arguments[0].click();", easy_apply_button)
-                        break
-                else:
-                    raise click_error
-
-        button_text = ""
-        submit_application_text = 'submit application'
-        max_form_attempts = 5
-        form_attempt = 0
-        
-        while submit_application_text not in button_text.lower() and form_attempt < max_form_attempts:
+                        raise e
+            
+            # Wait for job details to load
+            time.sleep(3)
+            
+            # Find and click the Easy Apply button
             try:
-                form_attempt += 1
-                print(f"Form attempt {form_attempt}/{max_form_attempts}")
-                
-                self.fill_up()
-                
-                # Try multiple selectors for the next button
-                next_button = None
-                button_selectors = [
-                    "artdeco-button--primary",
-                    "artdeco-button--2",
-                    "artdeco-button",
-                    "button[type='submit']",
-                    "button[data-control-name='continue_unify']"
+                easy_apply_button = None
+                easy_apply_selectors = [
+                    "button[data-control-name='jobdetails_topcard_inapply']",
+                    "button[data-control-name='jobdetails_topcard_apply']",
+                    "button[aria-label*='Easy Apply']",
+                    "button[aria-label*='Apply']",
+                    "button:contains('Easy Apply')",
+                    "button:contains('Apply')"
                 ]
                 
-                for selector in button_selectors:
+                for selector in easy_apply_selectors:
                     try:
-                        if selector.startswith("button["):
-                            next_button = self.browser.find_element(By.CSS_SELECTOR, selector)
+                        if 'contains' in selector:
+                            # Handle :contains selector manually
+                            buttons = self.browser.find_elements(By.TAG_NAME, 'button')
+                            for button in buttons:
+                                if 'Easy Apply' in button.text or 'Apply' in button.text:
+                                    easy_apply_button = button
+                                    break
                         else:
-                            next_button = self.browser.find_element(By.CLASS_NAME, selector)
-                        if next_button and next_button.is_enabled():
+                            easy_apply_button = self.browser.find_element(By.CSS_SELECTOR, selector)
+                        if easy_apply_button:
                             break
                     except:
                         continue
                 
-                if not next_button:
-                    print("Could not find next button, trying to refresh and retry...")
-                    self.browser.refresh()
-                    time.sleep(3)
-                    continue
+                if not easy_apply_button:
+                    print("❌ Easy Apply button not found. This job may not support Easy Apply.")
+                    return False
                 
-                button_text = next_button.text.lower()
-                print(f"Found button: {button_text}")
-                
-                if submit_application_text in button_text:
+                # Click the Easy Apply button with retry logic
+                max_click_attempts = 3
+                for attempt in range(max_click_attempts):
                     try:
-                        self.unfollow()
-                    except:
-                        print("Failed to unfollow company.")
-                time.sleep(random.uniform(1.5, 2.5))
-                next_button.click()
-                time.sleep(random.uniform(3.0, 5.0))
-
-                # Newer error handling
-                error_messages = [
-                    'enter a valid',
-                    'enter a decimal',
-                    'Enter a whole number'
-                    'Enter a whole number between 0 and 99',
-                    'file is required',
-                    'whole number',
-                    'make a selection',
-                    'select checkbox to proceed',
-                    'saisissez un numéro',
-                    '请输入whole编号',
-                    '请输入decimal编号',
-                    '长度超过 0.0',
-                    'Numéro de téléphone',
-                    'Introduce un número de whole entre',
-                    'Inserisci un numero whole compreso',
-                    'Preguntas adicionales',
-                    'Insira um um número',
-                    'Cuántos años'
-                    'use the format',
-                    'A file is required',
-                    '请选择',
-                    '请 选 择',
-                    'Inserisci',
-                    'wholenummer',
-                    'Wpisz liczb',
-                    'zakresu od',
-                    'tussen'
-                ]
-
-                if any(error in self.browser.page_source.lower() for error in error_messages):
-                    raise Exception("Failed answering required questions or uploading required files.")
+                        # Scroll button into view
+                        self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", easy_apply_button)
+                        time.sleep(1)
+                        
+                        # Try regular click first
+                        easy_apply_button.click()
+                        break
+                        
+                    except ElementClickInterceptedException:
+                        print(f"Click failed, retrying... ({attempt + 1}/{max_click_attempts})")
+                        if attempt < max_click_attempts - 1:
+                            time.sleep(2)
+                            # Try JavaScript click as fallback
+                            try:
+                                self.browser.execute_script("arguments[0].click();", easy_apply_button)
+                                break
+                            except:
+                                continue
+                        else:
+                            print("❌ Failed to click Easy Apply button after all attempts")
+                            return False
+                            
+                    except StaleElementReferenceException:
+                        print(f"Element became stale, retrying... ({attempt + 1}/{max_click_attempts})")
+                        if attempt < max_click_attempts - 1:
+                            time.sleep(2)
+                            # Try to find the button again
+                            try:
+                                easy_apply_button = self.browser.find_element(By.CSS_SELECTOR, easy_apply_selectors[0])
+                            except:
+                                continue
+                        else:
+                            print("❌ Failed to find Easy Apply button after all attempts")
+                            return False
+                            
+                    except Exception as e:
+                        print(f"Unexpected error clicking Easy Apply: {str(e)}")
+                        if attempt < max_click_attempts - 1:
+                            time.sleep(2)
+                            continue
+                        else:
+                            return False
+                
+                # Wait for application form to load
+                time.sleep(3)
+                
             except Exception as e:
-                print(f"Error during application process: {str(e)}")
-                traceback.print_exc()
-                
-                # Try to close any open modals
+                print(f"❌ Error finding or clicking Easy Apply button: {str(e)}")
+                return False
+            
+            # Now handle the application form
+            try:
+                # Find the job description area for analysis
                 try:
-                    dismiss_buttons = self.browser.find_elements(By.CLASS_NAME, 'artdeco-modal__dismiss')
-                    if dismiss_buttons:
-                        dismiss_buttons[0].click()
-                        time.sleep(random.uniform(2, 3))
+                    job_description_area = self.browser.find_element(By.CLASS_NAME, "jobs-search__job-details--container")
+                    print(f"{job_description_area}")
+
+                    # Read and analyze job description using OCR
+                    print("Reading job description with OCR...")
+                    job_description_text = self.read_job_description_ocr(job_description_area)
                     
-                    confirm_buttons = self.browser.find_elements(By.CLASS_NAME, 'artdeco-modal__confirm-dialog-btn')
-                    if confirm_buttons:
-                        confirm_buttons[0].click()
-                        time.sleep(random.uniform(2, 3))
-                except Exception as close_error:
-                    print(f"Could not close modal: {str(close_error)}")
-                
-                # If we've exhausted all attempts, raise the exception
-                if form_attempt >= max_form_attempts:
-                    print(f"Exhausted {max_form_attempts} form attempts, giving up")
-                    raise Exception("Failed to apply to job after multiple attempts!")
-                else:
-                    print(f"Retrying form... (attempt {form_attempt + 1}/{max_form_attempts})")
-                    continue
-
-        closed_notification = False
-        time.sleep(random.uniform(3, 5))
-        try:
-            self.browser.find_element(By.CLASS_NAME, 'artdeco-modal__dismiss').click()
-            closed_notification = True
-        except:
-            pass
-        try:
-            self.browser.find_element(By.CLASS_NAME, 'artdeco-toast-item__dismiss').click()
-            closed_notification = True
-        except:
-            pass
-        try:
-            self.browser.find_element(By.CSS_SELECTOR, 'button[data-control-name="save_application_btn"]').click()
-            closed_notification = True
-        except:
-            pass
-
-        time.sleep(random.uniform(3, 5))
-
-        if closed_notification is False:
-            raise Exception("Could not close the applied confirmation window!")
-
-        return True
+                    if job_description_text:
+                        # Analyze the job description
+                        analysis = self.analyze_job_description(job_description_text)
+                        
+                        print("\n" + "="*60)
+                        print("🔍 JOB DESCRIPTION ANALYSIS")
+                        print("="*60)
+                        
+                        # Basic job info
+                        print(f"📋 Job Type: {analysis.get('job_type', 'unknown').replace('_', ' ').title()}")
+                        print(f"📍 Location Type: {analysis.get('location_type', 'unknown').replace('_', ' ').title()}")
+                        print(f"💼 Experience Level: {analysis.get('experience_level', 'unknown').title()}")
+                        print(f"🏠 Remote Work: {'Yes' if analysis.get('remote_work', False) else 'No'}")
+                        print(f"💰 Salary Mentioned: {'Yes' if analysis.get('salary_mentioned', False) else 'No'}")
+                        
+                        # Skills analysis
+                        job_skills = analysis.get('job_skills', [])
+                        if job_skills:
+                            print(f"\n🎯 Required Skills ({len(job_skills)}):")
+                            # Group skills by category for better display
+                            programming_skills = ['python', 'javascript', 'java', 'c++', 'c#', 'php', 'ruby', 'go', 'rust', 'swift', 'kotlin', 'scala', 'r', 'matlab', 'perl', 'bash', 'powershell', 'typescript']
+                            framework_skills = ['react', 'angular', 'vue', 'node.js', 'express', 'django', 'flask', 'spring', 'laravel', 'asp.net', 'jquery', 'bootstrap', 'tailwind', 'material-ui', 'redux', 'mobx', 'graphql', 'rest api', 'api development']
+                            database_skills = ['sql', 'mysql', 'postgresql', 'oracle', 'sql server', 'sqlite', 'mongodb', 'redis', 'cassandra', 'dynamodb', 'elasticsearch', 'neo4j', 'firebase']
+                            cloud_devops_skills = ['aws', 'azure', 'google cloud', 'gcp', 'heroku', 'digitalocean', 'linode', 'kubernetes', 'docker', 'terraform', 'cloudformation', 'serverless', 'git', 'github', 'gitlab', 'jenkins', 'circleci', 'travis ci', 'gitlab ci', 'ansible', 'chef', 'puppet', 'vagrant', 'virtualbox', 'vmware']
+                            methodology_skills = ['agile', 'scrum', 'kanban', 'waterfall', 'devops', 'ci/cd', 'tdd', 'bdd', 'lean', 'six sigma', 'prince2', 'pmp']
+                            soft_skill_list = ['leadership', 'communication', 'teamwork', 'problem solving', 'analytical thinking', 'creativity', 'adaptability', 'time management', 'project management']
+                            
+                            skill_categories = {
+                                'Programming': [s for s in job_skills if s.lower() in programming_skills],
+                                'Frameworks': [s for s in job_skills if s.lower() in framework_skills],
+                                'Databases': [s for s in job_skills if s.lower() in database_skills],
+                                'Cloud/DevOps': [s for s in job_skills if s.lower() in cloud_devops_skills],
+                                'Methodologies': [s for s in job_skills if s.lower() in methodology_skills],
+                                'Soft Skills': [s for s in job_skills if s.lower() in soft_skill_list],
+                                'Other': [s for s in job_skills if s.lower() not in programming_skills + framework_skills + database_skills + cloud_devops_skills + methodology_skills + soft_skill_list]
+                            }
+                            
+                            for category, skills in skill_categories.items():
+                                if skills:
+                                    print(f"  {category}: {', '.join(skills[:8])}{'...' if len(skills) > 8 else ''}")
+                        
+                        # Tech stack
+                        tech_stack = analysis.get('tech_stack', [])
+                        if tech_stack:
+                            print(f"\n🔧 Tech Stack: {', '.join(tech_stack[:10])}{'...' if len(tech_stack) > 10 else ''}")
+                        
+                        # Red flags
+                        red_flags = analysis.get('red_flags', [])
+                        if red_flags:
+                            print(f"\n🚨 Red Flags:")
+                            for flag in red_flags:
+                                print(f"  ⚠️  {flag}")
+                        
+                        # Skill matching results
+                        if 'skill_match' in analysis:
+                            skill_match = analysis['skill_match']
+                            print(f"\n🎯 SKILL MATCHING ANALYSIS")
+                            print(f"   Overall Score: {skill_match['score']}/100")
+                            print(f"   Match Percentage: {skill_match['match_percentage']}%")
+                            
+                            if skill_match['matched_skills']:
+                                print(f"   ✅ Matched Skills: {', '.join(skill_match['matched_skills'][:6])}{'...' if len(skill_match['matched_skills']) > 6 else ''}")
+                            
+                            if skill_match['missing_skills']:
+                                print(f"   ❌ Missing Skills: {', '.join(skill_match['missing_skills'][:6])}{'...' if len(skill_match['missing_skills']) > 6 else ''}")
+                            
+                            if skill_match['extra_skills']:
+                                print(f"   🎁 Extra Skills: {', '.join(skill_match['extra_skills'][:6])}{'...' if len(skill_match['extra_skills']) > 6 else ''}")
+                        
+                        print("="*60)
+                        
+                        # Make decision based on analysis
+                        should_apply = self.should_apply_to_job(analysis, job_description_text)
+                        
+                        if not should_apply:
+                            print("❌ Job analysis suggests not to apply. Skipping this job.")
+                            return False
+                        else:
+                            print("✅ Job analysis suggests this is a good fit. Proceeding with application.")
+                    else:
+                        print("⚠️  Could not read job description. Proceeding with caution.")
+                        print("💡 To enable full job analysis, install Tesseract OCR:")
+                        print("   Download from: https://github.com/UB-Mannheim/tesseract/wiki")
+                        print("   Check 'Add to PATH' during installation and restart your IDE")
+                    
+                    self.scroll_slow(job_description_area, end=1600)
+                    self.scroll_slow(job_description_area, end=1600, step=400, reverse=True)
+                except Exception as e:
+                    print(f"Error reading job description: {str(e)}")
+                    # Continue with application even if OCR fails
+                    pass
+            except Exception as e:
+                print(f"Error handling job application: {str(e)}")
+                traceback.print_exc()
+                return False
+            
+            # Now handle the application form
+            button_text = ""
+            submit_application_text = 'submit application'
+            max_form_attempts = 5
+            form_attempt = 0
+            
+            while submit_application_text not in button_text.lower() and form_attempt < max_form_attempts:
+                try:
+                    form_attempt += 1
+                    print(f"Form attempt {form_attempt}/{max_form_attempts}")
+                    
+                    self.fill_up()
+                    
+                    # Try multiple selectors for the next button
+                    next_button = None
+                    button_selectors = [
+                        "artdeco-button--primary",
+                        "artdeco-button--2",
+                        "artdeco-button",
+                        "button[type='submit']",
+                        "button[data-control-name='continue_unify']"
+                    ]
+                    
+                    for selector in button_selectors:
+                        try:
+                            if selector.startswith("button["):
+                                next_button = self.browser.find_element(By.CSS_SELECTOR, selector)
+                            else:
+                                next_button = self.browser.find_element(By.CLASS_NAME, selector)
+                            if next_button and next_button.is_enabled():
+                                break
+                        except:
+                            continue
+                    
+                    if not next_button:
+                        print("Could not find next button, trying to refresh and retry...")
+                        self.browser.refresh()
+                        time.sleep(3)
+                        continue
+                    
+                    button_text = next_button.text.lower()
+                    print(f"Found button: {button_text}")
+                    
+                    if submit_application_text in button_text:
+                        try:
+                            self.unfollow()
+                        except:
+                            print("Failed to unfollow company.")
+                    time.sleep(random.uniform(1.5, 2.5))
+                    next_button.click()
+                    time.sleep(random.uniform(3.0, 5.0))
+                    
+                    # Check for error messages
+                    error_messages = [
+                        'enter a valid',
+                        'enter a decimal',
+                        'Enter a whole number',
+                        'Enter a whole number between 0 and 99',
+                        'file is required',
+                        'whole number',
+                        'make a selection',
+                        'select checkbox to proceed',
+                        'saisissez un numéro',
+                        '请输入whole编号',
+                        '请输入decimal编号',
+                        '长度超过 0.0',
+                        'Numéro de téléphone',
+                        'Introduce un número de whole entre',
+                        'Inserisci un numero whole compreso',
+                        'Preguntas adicionales',
+                        'Insira um um número',
+                        'Cuántos años',
+                        'use the format',
+                        'A file is required',
+                        '请选择',
+                        '请 选 择',
+                        'Inserisci',
+                        'wholenummer',
+                        'Wpisz liczb',
+                        'zakresu od',
+                        'tussen'
+                    ]
+                    
+                    if any(error in self.browser.page_source.lower() for error in error_messages):
+                        raise Exception("Failed answering required questions or uploading required files.")
+                        
+                except Exception as e:
+                    print(f"Error during application process: {str(e)}")
+                    traceback.print_exc()
+                    
+                    # Try to close any open modals
+                    try:
+                        dismiss_buttons = self.browser.find_elements(By.CLASS_NAME, 'artdeco-modal__dismiss')
+                        if dismiss_buttons:
+                            dismiss_buttons[0].click()
+                            time.sleep(random.uniform(2, 3))
+                        
+                        confirm_buttons = self.browser.find_elements(By.CLASS_NAME, 'artdeco-modal__confirm-dialog-btn')
+                        if confirm_buttons:
+                            confirm_buttons[0].click()
+                            time.sleep(random.uniform(2, 3))
+                    except Exception as close_error:
+                        print(f"Could not close modal: {str(close_error)}")
+                    
+                    # If we've exhausted all attempts, raise the exception
+                    if form_attempt >= max_form_attempts:
+                        print(f"Exhausted {max_form_attempts} form attempts, giving up")
+                        raise Exception("Failed to apply to job after multiple attempts!")
+                    else:
+                        print(f"Retrying form... (attempt {form_attempt + 1}/{max_form_attempts})")
+                        continue
+            
+            # Close application confirmation
+            closed_notification = False
+            time.sleep(random.uniform(3, 5))
+            try:
+                self.browser.find_element(By.CLASS_NAME, 'artdeco-modal__dismiss').click()
+                closed_notification = True
+            except:
+                pass
+            try:
+                self.browser.find_element(By.CLASS_NAME, 'artdeco-toast-item__dismiss').click()
+                closed_notification = True
+            except:
+                pass
+            try:
+                self.browser.find_element(By.CSS_SELECTOR, 'button[data-control-name="save_application_btn"]').click()
+                closed_notification = True
+            except:
+                pass
+            
+            time.sleep(random.uniform(3, 5))
+            
+            if closed_notification is False:
+                print("⚠️  Could not close the applied confirmation window!")
+            else:
+                print("✅ Application confirmation closed successfully")
+            
+            return True
+        except Exception as e:
+            print(f"Unexpected error applying to job: {str(e)}")
+            traceback.print_exc()
+            return False
 
     def home_address(self, form):
         print("Trying to fill up home address fields")
