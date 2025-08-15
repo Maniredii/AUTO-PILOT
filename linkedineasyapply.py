@@ -13,6 +13,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from datetime import date, datetime
 from itertools import product
+import re
 
 class LinkedinEasyApply:
     def __init__(self, parameters, driver):
@@ -77,7 +78,9 @@ class LinkedinEasyApply:
                         "jobs-description",
                         "job-description",
                         "description__text",
-                        "jobs-box__html-content"
+                        "jobs-box__html-content",
+                        "jobs-description-content__text",
+                        "show-more-less-html__markup"
                     ]
                     
                     for selector in description_selectors:
@@ -157,8 +160,7 @@ class LinkedinEasyApply:
                     
                     # Clean up the extracted text
                     if text:
-                        # Remove extra whitespace and normalize
-                        text = ' '.join(text.split())
+                        text = self.clean_job_description_text(text)
                         print(f"Successfully extracted {len(text)} characters from job description using OCR")
                         return text
                     else:
@@ -195,7 +197,9 @@ class LinkedinEasyApply:
                     "jobs-description",
                     "job-description",
                     "description__text",
-                    "jobs-box__html-content"
+                    "jobs-box__html-content",
+                    "jobs-description-content__text",
+                    "show-more-less-html__markup"
                 ]
                 
                 for selector in description_selectors:
@@ -215,7 +219,7 @@ class LinkedinEasyApply:
             
             if job_text:
                 # Clean up the text
-                job_text = ' '.join(job_text.split())
+                job_text = self.clean_job_description_text(job_text)
                 print(f"Successfully extracted {len(job_text)} characters from job description using HTML text")
                 return job_text
             else:
@@ -225,6 +229,172 @@ class LinkedinEasyApply:
         except Exception as e:
             print(f"Error reading job description HTML: {str(e)}")
             return ""
+    
+    def clean_job_description_text(self, text):
+        """
+        Clean and normalize job description text for better analysis
+        """
+        if not text:
+            return ""
+        
+        # Remove extra whitespace and normalize
+        text = ' '.join(text.split())
+        
+        # Remove common LinkedIn artifacts
+        text = text.replace('LinkedIn', '')
+        text = text.replace('Easy Apply', '')
+        text = text.replace('Apply now', '')
+        
+        # Remove excessive punctuation
+        text = text.replace('...', '.')
+        text = text.replace('..', '.')
+        
+        # Normalize line breaks
+        text = text.replace('\n', ' ')
+        text = text.replace('\r', ' ')
+        
+        # Remove multiple spaces
+        text = ' '.join(text.split())
+        
+        return text.strip()
+    
+    def extract_skills_from_text(self, text):
+        """
+        Extract skills and technical requirements from job description text
+        Returns a list of identified skills
+        """
+        if not text:
+            return []
+        
+        # Convert to lowercase for matching
+        text_lower = text.lower()
+        
+        # Define skill categories and keywords
+        programming_languages = [
+            'python', 'javascript', 'java', 'c++', 'c#', 'php', 'ruby', 'go', 'rust', 'swift',
+            'kotlin', 'scala', 'r', 'matlab', 'perl', 'bash', 'powershell', 'typescript'
+        ]
+        
+        frameworks_libraries = [
+            'react', 'angular', 'vue', 'node.js', 'express', 'django', 'flask', 'spring',
+            'laravel', 'asp.net', 'jquery', 'bootstrap', 'tailwind', 'material-ui',
+            'redux', 'mobx', 'graphql', 'rest api', 'api development'
+        ]
+        
+        databases = [
+            'sql', 'mysql', 'postgresql', 'oracle', 'sql server', 'sqlite', 'mongodb',
+            'redis', 'cassandra', 'dynamodb', 'elasticsearch', 'neo4j', 'firebase'
+        ]
+        
+        cloud_platforms = [
+            'aws', 'azure', 'google cloud', 'gcp', 'heroku', 'digitalocean', 'linode',
+            'kubernetes', 'docker', 'terraform', 'cloudformation', 'serverless'
+        ]
+        
+        devops_tools = [
+            'git', 'github', 'gitlab', 'jenkins', 'circleci', 'travis ci', 'gitlab ci',
+            'ansible', 'chef', 'puppet', 'vagrant', 'virtualbox', 'vmware'
+        ]
+        
+        methodologies = [
+            'agile', 'scrum', 'kanban', 'waterfall', 'devops', 'ci/cd', 'tdd', 'bdd',
+            'lean', 'six sigma', 'prince2', 'pmp'
+        ]
+        
+        soft_skills = [
+            'leadership', 'communication', 'teamwork', 'problem solving', 'analytical thinking',
+            'creativity', 'adaptability', 'time management', 'project management'
+        ]
+        
+        # Combine all skills
+        all_skills = (
+            programming_languages + frameworks_libraries + databases + 
+            cloud_platforms + devops_tools + methodologies + soft_skills
+        )
+        
+        # Find skills in text
+        found_skills = []
+        for skill in all_skills:
+            if skill in text_lower:
+                found_skills.append(skill)
+        
+        # Look for additional patterns
+        # Years of experience
+        experience_patterns = [
+            r'(\d+)\+?\s*years?\s*of\s*experience',
+            r'experience:\s*(\d+)\+?\s*years?',
+            r'(\d+)\+?\s*years?\s*in\s*[a-zA-Z\s]+'
+        ]
+        
+        for pattern in experience_patterns:
+            matches = re.findall(pattern, text_lower)
+            if matches:
+                found_skills.append(f"{matches[0]}+ years experience")
+        
+        # Education requirements
+        education_keywords = ['bachelor', 'master', 'phd', 'degree', 'diploma', 'certification']
+        for keyword in education_keywords:
+            if keyword in text_lower:
+                found_skills.append(f"education: {keyword}")
+        
+        # Remove duplicates and return
+        return list(set(found_skills))
+    
+    def calculate_skill_match_score(self, job_skills, user_skills):
+        """
+        Calculate how well user skills match job requirements
+        Returns a score from 0-100 and detailed analysis
+        """
+        if not job_skills or not user_skills:
+            return {
+                'score': 0,
+                'matched_skills': [],
+                'missing_skills': job_skills,
+                'extra_skills': user_skills,
+                'match_percentage': 0
+            }
+        
+        # Convert all skills to lowercase for comparison
+        job_skills_lower = [skill.lower() for skill in job_skills]
+        user_skills_lower = [skill.lower() for skill in user_skills]
+        
+        # Convert to sets for comparison
+        job_skills_set = set(job_skills_lower)
+        user_skills_set = set(user_skills_lower)
+        
+        # Calculate matches
+        matched_skills = job_skills_set.intersection(user_skills_set)
+        missing_skills = job_skills_set - user_skills_set
+        extra_skills = user_skills_set - job_skills_set
+        
+        # Map back to original case for display
+        matched_skills_original = [skill for skill in job_skills if skill.lower() in matched_skills]
+        missing_skills_original = [skill for skill in job_skills if skill.lower() in missing_skills]
+        extra_skills_original = [skill for skill in user_skills if skill.lower() in extra_skills]
+        
+        # Calculate score
+        if len(job_skills_set) == 0:
+            match_percentage = 0
+        else:
+            match_percentage = (len(matched_skills) / len(job_skills_set)) * 100
+        
+        # Weight the score based on importance
+        score = match_percentage
+        
+        # Bonus for having extra relevant skills
+        if len(extra_skills) > 0:
+            score += min(10, len(extra_skills) * 2)  # Max 10 bonus points
+        
+        # Cap score at 100
+        score = min(100, score)
+        
+        return {
+            'score': round(score, 1),
+            'matched_skills': matched_skills_original,
+            'missing_skills': missing_skills_original,
+            'extra_skills': extra_skills_original,
+            'match_percentage': round(match_percentage, 1)
+        }
 
     def analyze_job_description(self, job_text):
         """
@@ -234,139 +404,229 @@ class LinkedinEasyApply:
         if not job_text:
             return {}
         
-        analysis = {
-            'has_required_skills': False,
-            'has_preferred_skills': False,
-            'experience_level': 'unknown',
-            'remote_work': False,
-            'salary_mentioned': False,
-            'tech_stack': [],
-            'red_flags': []
+        analysis = {}
+        
+        # Convert to lowercase for analysis
+        text_lower = job_text.lower()
+        
+        # Extract skills from job description
+        job_skills = self.extract_skills_from_text(job_text)
+        analysis['job_skills'] = job_skills
+        
+        # Calculate skill match with user skills
+        if hasattr(self, 'user_skills') and self.user_skills:
+            skill_match = self.calculate_skill_match_score(job_skills, self.user_skills)
+            analysis['skill_match'] = skill_match
+            analysis['skill_match_score'] = skill_match['score']
+            analysis['matched_skills'] = skill_match['matched_skills']
+            analysis['missing_skills'] = skill_match['missing_skills']
+            analysis['extra_skills'] = skill_match['extra_skills']
+        
+        # Experience level detection
+        experience_keywords = {
+            'junior': ['junior', 'entry level', 'entry-level', '0-2 years', '1-2 years', 'new grad', 'recent graduate'],
+            'mid': ['mid level', 'mid-level', 'intermediate', '3-5 years', '4-6 years', 'mid-senior'],
+            'senior': ['senior', 'lead', 'principal', 'staff', '5+ years', '7+ years', '10+ years', 'expert']
         }
         
-        job_text_lower = job_text.lower()
+        for level, keywords in experience_keywords.items():
+            if any(keyword in text_lower for keyword in keywords):
+                analysis['experience_level'] = level
+                break
         
-        # Check for required skills
-        required_keywords = ['required', 'must have', 'essential', 'mandatory', 'prerequisites']
-        if any(keyword in job_text_lower for keyword in required_keywords):
-            analysis['has_required_skills'] = True
+        if 'experience_level' not in analysis:
+            analysis['experience_level'] = 'unknown'
         
-        # Check for preferred skills
-        preferred_keywords = ['preferred', 'nice to have', 'bonus', 'plus', 'advantage']
-        if any(keyword in job_text_lower for keyword in preferred_keywords):
-            analysis['has_preferred_skills'] = True
+        # Remote work detection
+        remote_keywords = ['remote', 'work from home', 'wfh', 'telecommute', 'virtual', 'distributed team']
+        analysis['remote_work'] = any(keyword in text_lower for keyword in remote_keywords)
         
-        # Check experience level
-        if 'senior' in job_text_lower or 'lead' in job_text_lower or 'principal' in job_text_lower:
-            analysis['experience_level'] = 'senior'
-        elif 'junior' in job_text_lower or 'entry' in job_text_lower or 'graduate' in job_text_lower:
-            analysis['experience_level'] = 'junior'
-        elif 'mid' in job_text_lower or 'intermediate' in job_text_lower:
-            analysis['experience_level'] = 'mid'
+        # Salary detection
+        salary_keywords = ['salary', 'compensation', 'pay', 'rate', '$', 'dollars', 'annual', 'yearly']
+        analysis['salary_mentioned'] = any(keyword in text_lower for keyword in salary_keywords)
         
-        # Check for remote work
-        remote_keywords = ['remote', 'work from home', 'telecommute', 'distributed']
-        if any(keyword in job_text_lower for keyword in remote_keywords):
-            analysis['remote_work'] = True
-        
-        # Check for salary information
-        salary_keywords = ['salary', 'compensation', 'pay', '$', 'usd', 'annual']
-        if any(keyword in job_text_lower for keyword in salary_keywords):
-            analysis['salary_mentioned'] = True
-        
-        # Extract tech stack
+        # Tech stack analysis
         tech_keywords = [
-            'python', 'java', 'javascript', 'react', 'angular', 'vue', 'node.js',
-            'aws', 'azure', 'gcp', 'docker', 'kubernetes', 'sql', 'mongodb',
-            'machine learning', 'ai', 'data science', 'devops', 'agile'
+            'python', 'javascript', 'java', 'react', 'node.js', 'aws', 'sql', 'mongodb',
+            'docker', 'kubernetes', 'git', 'agile', 'scrum', 'machine learning', 'ai',
+            'data science', 'cloud', 'devops', 'ci/cd'
         ]
         
+        found_tech = []
         for tech in tech_keywords:
-            if tech in job_text_lower:
-                analysis['tech_stack'].append(tech)
+            if tech in text_lower:
+                found_tech.append(tech)
         
-        # Check for red flags
-        red_flag_keywords = [
-            'unpaid', 'volunteer', 'commission only', 'no benefits',
-            'overtime required', 'weekend work', 'on-call', '24/7'
-        ]
+        analysis['tech_stack'] = found_tech
         
-        for flag in red_flag_keywords:
-            if flag in job_text_lower:
-                analysis['red_flags'].append(flag)
+        # Red flag detection
+        red_flags = []
+        
+        # Unpaid/volunteer work
+        unpaid_keywords = ['unpaid', 'volunteer', 'internship', 'no pay', 'experience only']
+        if any(keyword in text_lower for keyword in unpaid_keywords):
+            red_flags.append('unpaid/volunteer position')
+        
+        # Commission only
+        if 'commission only' in text_lower or 'commission-based' in text_lower:
+            red_flags.append('commission-only compensation')
+        
+        # No benefits
+        if 'no benefits' in text_lower or 'benefits not included' in text_lower:
+            red_flags.append('no benefits mentioned')
+        
+        # Excessive overtime
+        overtime_keywords = ['24/7', 'on-call', 'overtime required', 'weekend work', 'holiday work']
+        if any(keyword in text_lower for keyword in overtime_keywords):
+            red_flags.append('excessive overtime requirements')
+        
+        # High pressure
+        pressure_keywords = ['fast-paced', 'high-pressure', 'deadline-driven', 'crunch time']
+        if any(keyword in text_lower for keyword in pressure_keywords):
+            red_flags.append('high-pressure environment')
+        
+        analysis['red_flags'] = red_flags
+        
+        # Job type detection
+        job_types = {
+            'full_time': ['full-time', 'full time', 'permanent', 'regular'],
+            'part_time': ['part-time', 'part time', 'temporary', 'contract'],
+            'contract': ['contract', 'freelance', 'consulting', 'project-based']
+        }
+        
+        for job_type, keywords in job_types.items():
+            if any(keyword in text_lower for keyword in keywords):
+                analysis['job_type'] = job_type
+                break
+        
+        if 'job_type' not in analysis:
+            analysis['job_type'] = 'unknown'
+        
+        # Location requirements
+        location_keywords = ['on-site', 'onsite', 'in-office', 'hybrid', 'flexible']
+        if any(keyword in text_lower for keyword in location_keywords):
+            analysis['location_type'] = 'on-site'
+        elif analysis.get('remote_work', False):
+            analysis['location_type'] = 'remote'
+        else:
+            analysis['location_type'] = 'unknown'
         
         return analysis
 
     def should_apply_to_job(self, analysis, job_text):
         """
-        Make intelligent decision about whether to apply to a job
+        Determine whether to apply to a job based on analysis
         Returns True if should apply, False if should skip
         """
         if not analysis:
-            return True  # If we can't analyze, proceed with caution
+            print("⚠️  No job analysis available. Proceeding with application.")
+            return True
         
-        # Check for major red flags
-        if analysis.get('red_flags'):
-            red_flags = analysis['red_flags']
-            # Skip jobs with certain red flags
-            critical_red_flags = ['unpaid', 'volunteer', 'commission only', 'no benefits']
-            if any(flag in red_flags for flag in critical_red_flags):
-                print(f"❌ Critical red flag detected: {[f for f in red_flags if f in critical_red_flags]}")
+        # Check for critical red flags
+        red_flags = analysis.get('red_flags', [])
+        if red_flags:
+            print(f"🚨 Red flags detected: {', '.join(red_flags)}")
+            
+            # Critical red flags that should always cause a skip
+            critical_flags = ['unpaid/volunteer position', 'commission-only compensation']
+            if any(flag in red_flags for flag in critical_flags):
+                print("❌ Critical red flag detected. Skipping this job.")
                 return False
         
         # Check experience level compatibility
-        user_experience = getattr(self, 'experience_level', 'mid')  # Default to mid-level
+        user_experience = getattr(self, 'experience_level', 'mid')
         job_experience = analysis.get('experience_level', 'unknown')
         
-        if job_experience != 'unknown':
-            if user_experience == 'junior' and job_experience == 'senior':
-                print("❌ Job requires senior level, but user is junior")
+        if user_experience and job_experience != 'unknown':
+            experience_compatibility = self.check_experience_compatibility(user_experience, job_experience)
+            if not experience_compatibility:
+                print(f"❌ Experience level mismatch: You're {user_experience}, job requires {job_experience}")
                 return False
-            elif user_experience == 'senior' and job_experience == 'junior':
-                print("⚠️  Job is junior level, but user is senior - might be overqualified")
-                # Don't skip, but note it
+            else:
+                print(f"✅ Experience level compatible: {user_experience} → {job_experience}")
         
-        # Check for required skills match
-        if analysis.get('has_required_skills'):
-            # If job has required skills section, check if user has any of the common ones
-            user_skills = getattr(self, 'user_skills', [])
-            if user_skills:
-                job_text_lower = job_text.lower()
-                skill_match = any(skill.lower() in job_text_lower for skill in user_skills)
-                if not skill_match:
-                    print("❌ No skill match found in required skills")
-                    return False
+        # Check skill match score
+        skill_match_score = analysis.get('skill_match_score', 0)
+        if skill_match_score > 0:
+            print(f"🎯 Skill Match Score: {skill_match_score}/100")
+            
+            # Show skill analysis
+            matched_skills = analysis.get('matched_skills', [])
+            missing_skills = analysis.get('missing_skills', [])
+            extra_skills = analysis.get('extra_skills', [])
+            
+            if matched_skills:
+                print(f"  ✅ Matched Skills: {', '.join(matched_skills[:5])}{'...' if len(matched_skills) > 5 else ''}")
+            
+            if missing_skills:
+                print(f"  ❌ Missing Skills: {', '.join(missing_skills[:5])}{'...' if len(missing_skills) > 5 else ''}")
+            
+            if extra_skills:
+                print(f"  🎁 Extra Skills: {', '.join(extra_skills[:5])}{'...' if len(extra_skills) > 5 else ''}")
+            
+            # Decision based on skill match
+            if skill_match_score >= 80:
+                print("🎉 Excellent skill match! Highly recommended to apply.")
+                return True
+            elif skill_match_score >= 60:
+                print("✅ Good skill match. Recommended to apply.")
+                return True
+            elif skill_match_score >= 40:
+                print("⚠️  Moderate skill match. Consider applying if interested.")
+                return True
+            else:
+                print("❌ Low skill match. Consider skipping unless very interested.")
+                return False
         
-        # Check for remote work preference
-        user_prefers_remote = getattr(self, 'prefer_remote', False)
-        if user_prefers_remote and not analysis.get('remote_work'):
-            print("⚠️  User prefers remote work, but job is not remote")
-            # Don't skip, but note it
+        # Check remote work preference
+        prefer_remote = getattr(self, 'prefer_remote', False)
+        job_remote = analysis.get('remote_work', False)
         
-        # Check tech stack compatibility
+        if prefer_remote and not job_remote:
+            print("⚠️  You prefer remote work, but this job is not remote.")
+            # Don't skip, just warn
+        elif not prefer_remote and job_remote:
+            print("✅ Remote work available, which might be a plus.")
+        
+        # Check tech stack overlap
         user_tech_stack = getattr(self, 'user_tech_stack', [])
         job_tech_stack = analysis.get('tech_stack', [])
         
         if user_tech_stack and job_tech_stack:
-            tech_overlap = set(user_tech_stack) & set(job_tech_stack)
-            if tech_overlap:
-                print(f"✅ Tech stack overlap: {', '.join(tech_overlap)}")
-            else:
-                print("⚠️  No tech stack overlap found")
-                # Don't skip, but note it
+            tech_overlap = len(set(user_tech_stack) & set(job_tech_stack))
+            tech_total = len(set(job_tech_stack))
+            
+            if tech_total > 0:
+                tech_match_percentage = (tech_overlap / tech_total) * 100
+                print(f"🔧 Tech Stack Match: {tech_overlap}/{tech_total} technologies ({tech_match_percentage:.1f}%)")
+                
+                if tech_match_percentage >= 50:
+                    print("✅ Good tech stack alignment.")
+                elif tech_match_percentage >= 25:
+                    print("⚠️  Moderate tech stack alignment.")
+                else:
+                    print("❌ Low tech stack alignment.")
         
         # Overall decision
-        # If we have red flags, skip
-        if analysis.get('red_flags'):
-            return False
-        
-        # If we have good skill matches, apply
-        if analysis.get('has_required_skills') and user_skills:
+        print("✅ Job analysis completed. Proceeding with application.")
+        return True
+    
+    def check_experience_compatibility(self, user_level, job_level):
+        """
+        Check if user experience level is compatible with job requirements
+        """
+        if user_level == job_level:
             return True
         
-        # If no major issues, proceed
-        print("✅ Job analysis passed. Proceeding with application.")
-        return True
+        # Allow some flexibility
+        if user_level == 'mid' and job_level == 'senior':
+            return True  # Mid-level can apply to senior positions
+        elif user_level == 'senior' and job_level == 'mid':
+            return True  # Senior can apply to mid-level positions
+        elif user_level == 'mid' and job_level == 'junior':
+            return True  # Mid-level can apply to junior positions (overqualified but acceptable)
+        
+        return False
 
     def login(self):
         try:
@@ -719,14 +979,72 @@ class LinkedinEasyApply:
                 # Analyze the job description
                 analysis = self.analyze_job_description(job_description_text)
                 
-                print("Job Description Analysis:")
-                print(f"  Experience Level: {analysis.get('experience_level', 'unknown')}")
-                print(f"  Remote Work: {analysis.get('remote_work', False)}")
-                print(f"  Salary Mentioned: {analysis.get('salary_mentioned', False)}")
-                print(f"  Tech Stack: {', '.join(analysis.get('tech_stack', []))}")
+                print("\n" + "="*60)
+                print("🔍 JOB DESCRIPTION ANALYSIS")
+                print("="*60)
                 
-                if analysis.get('red_flags'):
-                    print(f"  ⚠️  Red Flags: {', '.join(analysis.get('red_flags', []))}")
+                # Basic job info
+                print(f"📋 Job Type: {analysis.get('job_type', 'unknown').replace('_', ' ').title()}")
+                print(f"📍 Location Type: {analysis.get('location_type', 'unknown').replace('_', ' ').title()}")
+                print(f"💼 Experience Level: {analysis.get('experience_level', 'unknown').title()}")
+                print(f"🏠 Remote Work: {'Yes' if analysis.get('remote_work', False) else 'No'}")
+                print(f"💰 Salary Mentioned: {'Yes' if analysis.get('salary_mentioned', False) else 'No'}")
+                
+                # Skills analysis
+                job_skills = analysis.get('job_skills', [])
+                if job_skills:
+                    print(f"\n🎯 Required Skills ({len(job_skills)}):")
+                    # Group skills by category for better display
+                    programming_skills = ['python', 'javascript', 'java', 'c++', 'c#', 'php', 'ruby', 'go', 'rust', 'swift', 'kotlin', 'scala', 'r', 'matlab', 'perl', 'bash', 'powershell', 'typescript']
+                    framework_skills = ['react', 'angular', 'vue', 'node.js', 'express', 'django', 'flask', 'spring', 'laravel', 'asp.net', 'jquery', 'bootstrap', 'tailwind', 'material-ui', 'redux', 'mobx', 'graphql', 'rest api', 'api development']
+                    database_skills = ['sql', 'mysql', 'postgresql', 'oracle', 'sql server', 'sqlite', 'mongodb', 'redis', 'cassandra', 'dynamodb', 'elasticsearch', 'neo4j', 'firebase']
+                    cloud_devops_skills = ['aws', 'azure', 'google cloud', 'gcp', 'heroku', 'digitalocean', 'linode', 'kubernetes', 'docker', 'terraform', 'cloudformation', 'serverless', 'git', 'github', 'gitlab', 'jenkins', 'circleci', 'travis ci', 'gitlab ci', 'ansible', 'chef', 'puppet', 'vagrant', 'virtualbox', 'vmware']
+                    methodology_skills = ['agile', 'scrum', 'kanban', 'waterfall', 'devops', 'ci/cd', 'tdd', 'bdd', 'lean', 'six sigma', 'prince2', 'pmp']
+                    soft_skill_list = ['leadership', 'communication', 'teamwork', 'problem solving', 'analytical thinking', 'creativity', 'adaptability', 'time management', 'project management']
+                    
+                    skill_categories = {
+                        'Programming': [s for s in job_skills if s.lower() in programming_skills],
+                        'Frameworks': [s for s in job_skills if s.lower() in framework_skills],
+                        'Databases': [s for s in job_skills if s.lower() in database_skills],
+                        'Cloud/DevOps': [s for s in job_skills if s.lower() in cloud_devops_skills],
+                        'Methodologies': [s for s in job_skills if s.lower() in methodology_skills],
+                        'Soft Skills': [s for s in job_skills if s.lower() in soft_skill_list],
+                        'Other': [s for s in job_skills if s.lower() not in programming_skills + framework_skills + database_skills + cloud_devops_skills + methodology_skills + soft_skill_list]
+                    }
+                    
+                    for category, skills in skill_categories.items():
+                        if skills:
+                            print(f"  {category}: {', '.join(skills[:8])}{'...' if len(skills) > 8 else ''}")
+                
+                # Tech stack
+                tech_stack = analysis.get('tech_stack', [])
+                if tech_stack:
+                    print(f"\n🔧 Tech Stack: {', '.join(tech_stack[:10])}{'...' if len(tech_stack) > 10 else ''}")
+                
+                # Red flags
+                red_flags = analysis.get('red_flags', [])
+                if red_flags:
+                    print(f"\n🚨 Red Flags:")
+                    for flag in red_flags:
+                        print(f"  ⚠️  {flag}")
+                
+                # Skill matching results
+                if 'skill_match' in analysis:
+                    skill_match = analysis['skill_match']
+                    print(f"\n🎯 SKILL MATCHING ANALYSIS")
+                    print(f"   Overall Score: {skill_match['score']}/100")
+                    print(f"   Match Percentage: {skill_match['match_percentage']}%")
+                    
+                    if skill_match['matched_skills']:
+                        print(f"   ✅ Matched Skills: {', '.join(skill_match['matched_skills'][:6])}{'...' if len(skill_match['matched_skills']) > 6 else ''}")
+                    
+                    if skill_match['missing_skills']:
+                        print(f"   ❌ Missing Skills: {', '.join(skill_match['missing_skills'][:6])}{'...' if len(skill_match['missing_skills']) > 6 else ''}")
+                    
+                    if skill_match['extra_skills']:
+                        print(f"   🎁 Extra Skills: {', '.join(skill_match['extra_skills'][:6])}{'...' if len(skill_match['extra_skills']) > 6 else ''}")
+                
+                print("="*60)
                 
                 # Make decision based on analysis
                 should_apply = self.should_apply_to_job(analysis, job_description_text)
@@ -1372,26 +1690,177 @@ class LinkedinEasyApply:
             pass
 
     def send_resume(self):
-        print("Trying to send resume")
+        """
+        Automatically upload resume and cover letter when applying to jobs
+        """
+        print("📄 Attempting to upload resume and cover letter...")
+        
         try:
-            file_upload_elements = (By.CSS_SELECTOR, "input[name='file']")
-            if len(self.browser.find_elements(file_upload_elements[0], file_upload_elements[1])) > 0:
-                input_buttons = self.browser.find_elements(file_upload_elements[0], file_upload_elements[1])
-                if len(input_buttons) == 0:
-                    raise Exception("No input elements found in element")
-                for upload_button in input_buttons:
-                    upload_type = upload_button.find_element(By.XPATH, "..").find_element(By.XPATH,
-                                                                                          "preceding-sibling::*")
-                    if 'resume' in upload_type.text.lower():
-                        upload_button.send_keys(self.resume_dir)
-                    elif 'cover' in upload_type.text.lower():
-                        if self.cover_letter_dir != '':
-                            upload_button.send_keys(self.cover_letter_dir)
-                        elif 'required' in upload_type.text.lower():
-                            upload_button.send_keys(self.resume_dir)
-        except:
-            print("Failed to upload resume or cover letter!")
-            pass
+            # Check if resume path exists and is accessible
+            if not hasattr(self, 'resume_dir') or not self.resume_dir:
+                print("❌ No resume path configured in config.yaml")
+                return False
+            
+            # Verify resume file exists
+            import os
+            if not os.path.exists(self.resume_dir):
+                print(f"❌ Resume file not found at: {self.resume_dir}")
+                print("💡 Please check the resume path in config.yaml")
+                return False
+            
+            print(f"✅ Resume file found: {self.resume_dir}")
+            
+            # Try multiple selectors for file upload elements
+            file_upload_selectors = [
+                "input[name='file']",
+                "input[type='file']",
+                "input[accept*='.pdf']",
+                "input[accept*='.doc']",
+                "input[accept*='.docx']",
+                "input[accept*='.txt']",
+                "input[class*='file']",
+                "input[class*='upload']"
+            ]
+            
+            upload_elements_found = False
+            
+            for selector in file_upload_selectors:
+                try:
+                    file_inputs = self.browser.find_elements(By.CSS_SELECTOR, selector)
+                    if file_inputs:
+                        print(f"🔍 Found {len(file_inputs)} file upload elements using selector: {selector}")
+                        
+                        for upload_input in file_inputs:
+                            try:
+                                # Try to determine what type of file this input is for
+                                upload_context = self.get_upload_context(upload_input)
+                                print(f"📋 Upload context: {upload_context}")
+                                
+                                if 'resume' in upload_context.lower() or 'cv' in upload_context.lower():
+                                    print(f"📤 Uploading resume to: {upload_context}")
+                                    upload_input.send_keys(self.resume_dir)
+                                    print("✅ Resume uploaded successfully!")
+                                    upload_elements_found = True
+                                    
+                                elif 'cover' in upload_context.lower() and self.cover_letter_dir:
+                                    if os.path.exists(self.cover_letter_dir):
+                                        print(f"📤 Uploading cover letter to: {upload_context}")
+                                        upload_input.send_keys(self.cover_letter_dir)
+                                        print("✅ Cover letter uploaded successfully!")
+                                        upload_elements_found = True
+                                    else:
+                                        print(f"⚠️  Cover letter file not found: {self.cover_letter_dir}")
+                                        
+                                elif 'required' in upload_context.lower():
+                                    # If it's marked as required but we don't know what type, upload resume
+                                    print(f"📤 Uploading resume to required field: {upload_context}")
+                                    upload_input.send_keys(self.resume_dir)
+                                    print("✅ Resume uploaded to required field!")
+                                    upload_elements_found = True
+                                    
+                                else:
+                                    print(f"⚠️  Unknown upload type: {upload_context}")
+                                    
+                            except Exception as upload_error:
+                                print(f"❌ Error uploading to {upload_context}: {str(upload_error)}")
+                                continue
+                        
+                        if upload_elements_found:
+                            break
+                            
+                except Exception as selector_error:
+                    print(f"⚠️  Error with selector {selector}: {str(selector_error)}")
+                    continue
+            
+            if not upload_elements_found:
+                print("⚠️  No file upload elements found or no successful uploads")
+                print("💡 This might be a job that doesn't require resume upload")
+                return False
+            
+            # Wait a moment for uploads to complete
+            time.sleep(2)
+            
+            # Verify uploads were successful by checking for success indicators
+            try:
+                success_indicators = [
+                    "//span[contains(text(), 'uploaded')]",
+                    "//span[contains(text(), 'successful')]",
+                    "//div[contains(@class, 'success')]",
+                    "//div[contains(@class, 'uploaded')]"
+                ]
+                
+                for indicator in success_indicators:
+                    try:
+                        success_element = self.browser.find_element(By.XPATH, indicator)
+                        if success_element.is_displayed():
+                            print("✅ Upload verification successful!")
+                            break
+                    except:
+                        continue
+                        
+            except Exception as verify_error:
+                print(f"⚠️  Could not verify upload success: {str(verify_error)}")
+            
+            return upload_elements_found
+            
+        except Exception as e:
+            print(f"❌ Error in resume upload process: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            return False
+    
+    def get_upload_context(self, upload_input):
+        """
+        Determine what type of file upload this input is for
+        """
+        try:
+            # Try to find nearby text that describes what this upload is for
+            context_selectors = [
+                ".//preceding-sibling::*[1]",
+                ".//following-sibling::*[1]",
+                ".//ancestor::div[contains(@class, 'form')]//label",
+                ".//ancestor::div[contains(@class, 'field')]//label",
+                ".//ancestor::div[contains(@class, 'upload')]//label",
+                ".//ancestor::div[contains(@class, 'resume')]//label",
+                ".//ancestor::div[contains(@class, 'cover')]//label"
+            ]
+            
+            for selector in context_selectors:
+                try:
+                    context_element = upload_input.find_element(By.XPATH, selector)
+                    if context_element and context_element.text.strip():
+                        return context_element.text.strip()
+                except:
+                    continue
+            
+            # Try to get context from parent elements
+            try:
+                parent = upload_input.find_element(By.XPATH, "..")
+                if parent.text.strip():
+                    return parent.text.strip()
+            except:
+                pass
+            
+            # Try to get context from aria-label or placeholder
+            try:
+                aria_label = upload_input.get_attribute('aria-label')
+                if aria_label:
+                    return aria_label
+            except:
+                pass
+            
+            try:
+                placeholder = upload_input.get_attribute('placeholder')
+                if placeholder:
+                    return placeholder
+            except:
+                pass
+            
+            # Default context
+            return "file upload"
+            
+        except Exception as e:
+            return "file upload"
 
     def enter_text(self, element, text):
         element.clear()
@@ -1439,32 +1908,37 @@ class LinkedinEasyApply:
             form = easy_apply_modal_content.find_element(By.TAG_NAME, 'form')
             try:
                 label = form.find_element(By.TAG_NAME, 'h3').text.lower()
-                print(f"Filling form section: {label}")
+                print(f"📝 Filling form section: {label}")
                 
                 if 'home address' in label:
                     self.home_address(form)
                 elif 'contact info' in label:
                     self.contact_info(form)
-                elif 'resume' in label:
-                    self.send_resume()
+                elif 'resume' in label or 'cv' in label:
+                    print("📄 Resume/CV section detected - attempting automatic upload...")
+                    resume_upload_success = self.send_resume()
+                    if resume_upload_success:
+                        print("✅ Resume section completed successfully")
+                    else:
+                        print("⚠️  Resume upload may have failed - continuing anyway")
                 else:
                     self.additional_questions(form)
                     
-                print(f"Successfully filled {label} section")
+                print(f"✅ Successfully filled {label} section")
                 
             except Exception as e:
-                print(f"An exception occurred while filling up the form: {str(e)}")
+                print(f"❌ An exception occurred while filling up the form: {str(e)}")
                 traceback.print_exc()
                 # Try to continue anyway
                 pass
         except Exception as e:
-            print(f"An exception occurred while searching for form in modal: {str(e)}")
+            print(f"❌ An exception occurred while searching for form in modal: {str(e)}")
             # This might be a different type of application form, try to continue
             # Try alternative form selectors
             try:
                 alternative_forms = self.browser.find_elements(By.TAG_NAME, 'form')
                 if alternative_forms:
-                    print(f"Found {len(alternative_forms)} alternative forms, trying to fill them")
+                    print(f"🔍 Found {len(alternative_forms)} alternative forms, trying to fill them")
                     for alt_form in alternative_forms:
                         try:
                             self.additional_questions(alt_form)
