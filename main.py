@@ -1,43 +1,26 @@
-import yaml, os, traceback
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
+import json
+import os
+import random
+import time
+import traceback
+from datetime import datetime, timedelta
+
+import yaml
 from validate_email import validate_email
-from webdriver_manager.chrome import ChromeDriverManager
-from linkedineasyapply import LinkedinEasyApply
 
-def init_browser():
-    browser_options = Options()
-    options = [
-        '--disable-blink-features',
-        '--no-sandbox',
-        '--start-maximized',
-        '--disable-extensions',
-        '--ignore-certificate-errors',
-        '--disable-blink-features=AutomationControlled',
-        '--remote-debugging-port=9222',
-        '--disable-dev-shm-usage',
-        '--disable-gpu',
-        '--no-first-run',
-        '--no-default-browser-check',
-        '--disable-background-timer-throttling',
-        '--disable-backgrounding-occluded-windows',
-        '--disable-renderer-backgrounding'
-    ]
+from protected_linkedin_bot import ProtectedLinkedInEasyApply
 
-    # Restore session if possible (avoids login everytime)
-    user_data_dir = os.path.join(os.getcwd(), "chrome_bot")
-    browser_options.add_argument(f"user-data-dir={user_data_dir}")
 
-    for option in options:
-        browser_options.add_argument(option)
+def load_hibernation_config() -> dict:
+    """Load anti-ban configuration with hibernation settings."""
+    try:
+        with open('anti_ban_config.json', 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        raise FileNotFoundError("anti_ban_config.json not found. Please ensure the configuration file is present.")
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Invalid JSON in anti_ban_config.json: {exc}")
 
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=browser_options)
-    driver.implicitly_wait(1)  # Wait time in seconds to allow loading of elements
-    driver.set_window_position(0, 0)
-    driver.maximize_window()
-    return driver
 
 def validate_yaml():
     with open("config.yaml", 'r', encoding='utf-8') as stream:
@@ -144,25 +127,133 @@ def validate_yaml():
 
     return parameters
 
-if __name__ == '__main__':
-    try:
-        parameters = validate_yaml()
-        browser = init_browser()
 
-        bot = LinkedinEasyApply(parameters, browser)
-        bot.login()
-        bot.security_check()
-        bot.start_applying()
-    except KeyboardInterrupt:
-        print("\nBot stopped by user.")
+def _close_bot_session(bot: ProtectedLinkedInEasyApply):
+    """Gracefully close browser resources if custom shutdown isn't available."""
+    if bot is None:
+        return
+
+    shutdown_called = False
+    if hasattr(bot, 'logout_and_close') and callable(getattr(bot, 'logout_and_close')):
         try:
-            browser.quit()
-        except:
-            pass
-    except Exception as e:
-        print(f"An error occurred: {str(e)}")
+            bot.logout_and_close()
+            shutdown_called = True
+        except Exception as exc:
+            print(f"⚠️  Error during logout_and_close(): {exc}")
+            traceback.print_exc()
+
+    if shutdown_called:
+        return
+
+    try:
+        if hasattr(bot, 'browser_context') and bot.browser_context:
+            try:
+                bot.browser_context.close()
+            except Exception:
+                traceback.print_exc()
+        elif hasattr(bot, 'browser') and bot.browser and hasattr(bot.browser, 'close'):
+            try:
+                bot.browser.close()
+            except Exception:
+                traceback.print_exc()
+    finally:
+        if hasattr(bot, 'anti_detection'):
+            try:
+                bot.anti_detection.save_session_data()
+            except Exception as exc:
+                print(f"⚠️  Could not save session data: {exc}")
+
+
+def run_hibernation_session():
+    """Executes a single, short-lived hibernation session of the bot."""
+    print("\n--- [START] Hibernation Session ---")
+
+    anti_ban_config = load_hibernation_config()
+    hibernation_config = anti_ban_config.get('hibernation_mode', {})
+
+    parameters = validate_yaml()
+
+    max_applications = max(1, int(hibernation_config.get('max_applications_per_session', 1)))
+    min_session_minutes = max(1, int(hibernation_config.get('min_session_duration_minutes', 5)))
+    max_session_minutes = max(min_session_minutes, int(hibernation_config.get('max_session_duration_minutes', 15)))
+    session_duration_minutes = random.randint(min_session_minutes, max_session_minutes)
+    session_end_time = datetime.now() + timedelta(minutes=session_duration_minutes)
+
+    chance_of_human_activity = float(hibernation_config.get('chance_of_human_activity', 0.9))
+
+    bot = None
+    try:
+        bot = ProtectedLinkedInEasyApply(parameters, use_stealth_browser=True)
+
+        # Initialize browser
+        if hasattr(bot, 'initialize_browser') and not bot.initialize_browser():
+            raise RuntimeError("Failed to initialize browser")
+
+        # Login
+        if hasattr(bot, 'protected_login') and not bot.protected_login():
+            raise RuntimeError("Failed to login")
+
+        # Simulate human-like browsing before applying
+        if random.random() < chance_of_human_activity:
+            simulated_minutes = random.randint(2, 5)
+            print(f"🤖 Simulating human-like browsing for {simulated_minutes} minutes...")
+            time.sleep(simulated_minutes * 60)
+
+        # Run single application session (method doesn't accept parameters)
+        if hasattr(bot, 'bot') and hasattr(bot.bot, 'run_single_application_session'):
+            bot.bot.run_single_application_session()
+        elif hasattr(bot, 'protected_start_applying'):
+            print("⚠️  run_single_application_session() not found – falling back to protected_start_applying().")
+            bot.protected_start_applying()
+        elif hasattr(bot, 'run'):
+            bot.run()
+        else:
+            raise RuntimeError("No compatible application method found on ProtectedLinkedInEasyApply")
+
+        # Wait to complete session window
+        remaining_seconds = (session_end_time - datetime.now()).total_seconds()
+        if remaining_seconds > 0:
+            print(f"😴 Waiting {remaining_seconds/60:.2f} minutes to complete session window...")
+            time.sleep(remaining_seconds)
+
+        print("--- [END] Hibernation Session Completed Successfully ---")
+
+    except Exception as exc:
+        print(f"--- [ERROR] Hibernation session failed: {exc} ---")
         traceback.print_exc()
-        try:
-            browser.quit()
-        except:
-            pass
+    finally:
+        _close_bot_session(bot)
+        print("--- [SHUTDOWN] Bot has been terminated. ---\n")
+
+
+def calculate_next_run_time():
+    """Calculates and prints the next recommended run time based on hibernation config."""
+    anti_ban_config = load_hibernation_config()
+    hibernation_config = anti_ban_config.get('hibernation_mode', {})
+
+    min_h = float(hibernation_config.get('min_hibernation_hours', 8))
+    max_h = float(hibernation_config.get('max_hibernation_hours', 48))
+
+    if max_h < min_h:
+        max_h = min_h
+
+    sleep_hours = random.uniform(min_h, max_h)
+    next_run_time = datetime.now() + timedelta(hours=sleep_hours)
+
+    print("==============================================")
+    print(f"Next recommended run time: {next_run_time.strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Time to wait: {sleep_hours:.2f} hours.")
+    print("==============================================\n")
+
+
+if __name__ == "__main__":
+    print("=" * 70)
+    print("🌙 LINKEDIN EASY APPLY BOT - HIBERNATION MODE")
+    print("=" * 70)
+    print("✅ Hibernation strategy: ENABLED")
+    print("✅ Anti-ban system: ENABLED")
+    print("✅ Stealth browser: ENABLED")
+    print("=" * 70)
+
+    run_hibernation_session()
+    calculate_next_run_time()

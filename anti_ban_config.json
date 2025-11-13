@@ -1,0 +1,153 @@
+{
+  "anti_ban_settings": {
+    "session_management": {
+      "max_applications_per_session": 15,
+      "max_session_duration_minutes": 90,
+      "min_break_duration_minutes": 30,
+      "max_break_duration_minutes": 120,
+      "session_rotation_frequency": 60
+    },
+    "timing_controls": {
+      "min_delay_between_applications": 300,
+      "max_delay_between_applications": 900,
+      "min_page_load_wait": 3,
+      "max_page_load_wait": 8,
+      "typing_speed_chars_per_second": {
+        "min": 3,
+        "max": 7
+      },
+      "mouse_movement_delay": {
+        "min": 0.1,
+        "max": 0.5
+      }
+    },
+    "detection_thresholds": {
+      "max_errors_per_session": 3,
+      "max_captcha_encounters": 2,
+      "rapid_clicking_threshold": 8,
+      "rapid_application_threshold": 3,
+      "max_daily_applications": 40
+    },
+    "stealth_features": {
+      "fingerprint_rotation": true,
+      "user_agent_rotation": true,
+      "viewport_randomization": true,
+      "timezone_spoofing": true,
+      "language_randomization": false,
+      "webgl_fingerprint_spoofing": true,
+      "canvas_fingerprint_spoofing": true,
+      "audio_fingerprint_spoofing": true,
+      "battery_spoofing": true,
+      "memory_spoofing": true,
+      "proxy_rotation": true
+    },
+    "proxy_settings": {
+      "enabled": true,
+      "rotation_interval_minutes": 30,
+      "proxy_provider": "custom",
+      "proxy_list": [],
+      "proxy_format": "http://user:pass@host:port",
+      "fallback_to_direct": true
+    },
+    "behavior_simulation": {
+      "human_like_scrolling": true,
+      "random_mouse_movements": true,
+      "reading_simulation": true,
+      "occasional_back_navigation": true,
+      "idle_time_simulation": true,
+      "tab_switching_simulation": false
+    },
+    "error_handling": {
+      "captcha_cooldown_minutes": 120,
+      "rate_limit_cooldown_minutes": 180,
+      "suspicious_activity_cooldown_minutes": 240,
+      "auto_retry_attempts": 2,
+      "error_screenshot_capture": true
+    },
+    "monitoring": {
+      "activity_logging": true,
+      "session_analytics": true,
+      "performance_metrics": true,
+      "detection_alerts": true,
+      "daily_usage_tracking": true
+    },
+    "safety_features": {
+      "emergency_stop_on_multiple_captchas": true,
+      "auto_pause_on_rate_limiting": true,
+      "intelligent_break_scheduling": true,
+      "account_health_monitoring": true,
+      "suspicious_pattern_detection": true
+    }
+  },
+  "browser_profiles": [
+    {
+      "name": "profile_1",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "screen_resolution": "1920x1080",
+      "timezone": "America/New_York",
+      "language": "en-US",
+      "platform": "Win32"
+    },
+    {
+      "name": "profile_2",
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "screen_resolution": "1440x900",
+      "timezone": "America/Los_Angeles",
+      "language": "en-US",
+      "platform": "MacIntel"
+    },
+    {
+      "name": "profile_3",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0",
+      "screen_resolution": "1366x768",
+      "timezone": "America/Chicago",
+      "language": "en-US",
+      "platform": "Win32"
+    }
+  ],
+  "blacklist_detection": {
+    "error_keywords": [
+      "suspicious activity",
+      "account restricted",
+      "try again later",
+      "rate limit exceeded",
+      "too many requests",
+      "verification required",
+      "unusual activity detected"
+    ],
+    "captcha_selectors": [
+      "#recaptcha",
+      ".captcha-container",
+      "[data-testid='challenge']",
+      ".security-challenge"
+    ]
+  },
+  "recovery_strategies": {
+    "captcha_encountered": {
+      "action": "pause_and_rotate",
+      "duration_minutes": 120,
+      "rotate_fingerprint": true,
+      "switch_profile": true
+    },
+    "rate_limited": {
+      "action": "extended_break",
+      "duration_minutes": 240,
+      "retry_attempts": 1
+    },
+    "account_flagged": {
+      "action": "emergency_stop",
+      "notification": true,
+      "manual_intervention": true
+    }
+  },
+  "hibernation_mode": {
+    "enabled": true,
+    "description": "Controls the hibernation strategy for maximum account longevity.",
+    "max_applications_per_session": 1,
+    "min_session_duration_minutes": 5,
+    "max_session_duration_minutes": 15,
+    "min_hibernation_hours": 8,
+    "max_hibernation_hours": 48,
+    "chance_of_human_activity": 0.9
+  }
+}
