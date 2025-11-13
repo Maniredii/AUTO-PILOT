@@ -1,7 +1,7 @@
 # Add your LinkedIn email ID and password.
 # *** WARNING: KEEP THIS CONFIG OFFLINE ON YOUR PC AND DO NOT COMMIT/UPLOAD ***
-email: nqhtrezf1ay7m@shipexpress.shop
-password: Mani!8897
+email: Email address for linkedin login
+password: password
 
 # Anti-lock default is False to prevent your PC from sleeping to
 # allow bot to run uninterrupted. Set it to True if you wish  to
@@ -284,7 +284,7 @@ maxSalary: 150000
 # ------------ OpenRouter API Configuration ---------------
 # OpenRouter API key for AI-powered features (cover letters, question answering, etc.)
 openrouter:
-  api_key: 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
+  api_key: Enter your apikey
   # Default model to use (can be changed)
   default_model: openai/gpt-3.5-turbo
   # Enable AI features (set to false to disable)
